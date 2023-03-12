@@ -65,3 +65,6 @@ BOARD_ROOT_EXTRA_FOLDERS += \
     modem_log \
     sec_storage \
     splash2
+
+# SELinux
+BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor

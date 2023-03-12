@@ -1,0 +1,39 @@
+import /init.hi6210sft.usb.rc
+
+on init
+	symlink /dev/block/platform/f723d000.dwmmc0 /dev/block/platform/hi_mci.0
+
+on property:sys.usb.config=none
+    stop adbd
+    stop hdbd
+    write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/bDeviceClass 0
+    write /sys/devices/virtual/android_usb/android0/port_mode 1
+    setprop sys.usb.state ${sys.usb.config}
+
+on property:sys.usb.config=manufacture,adb
+    write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 12d1
+    write /sys/class/android_usb/android0/idProduct 105c
+    write /sys/class/android_usb/android0/iSerial ${ro.serialno}
+    write /sys/class/android_usb/f_mass_storage/luns sdcard
+    write /sys/class/android_usb/f_mass_storage/lun/file none
+    write /sys/class/android_usb/android0/f_hw_acm/hw_instances 3
+    write /sys/class/android_usb/android0/functions hw_acm,mass_storage,adb,hdb
+    write /sys/devices/virtual/android_usb/android0/port_mode 14
+    write /sys/class/android_usb/android0/enable 1
+    start adbd
+    start hdbd
+    setprop sys.usb.state ${sys.usb.config}
+
+on property:sys.usb.config=mass_storage
+    write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 12d1
+    write /sys/class/android_usb/android0/idProduct 1037
+    write /sys/class/android_usb/android0/iSerial ${ro.serialno}
+    write /sys/class/android_usb/f_mass_storage/luns sdcard
+    write /sys/class/android_usb/f_mass_storage/lun/file none
+    write /sys/class/android_usb/android0/functions ${sys.usb.config}
+    write /sys/devices/virtual/android_usb/android0/port_mode 7
+    write /sys/class/android_usb/android0/enable 1
+    setprop sys.usb.state ${sys.usb.config}
