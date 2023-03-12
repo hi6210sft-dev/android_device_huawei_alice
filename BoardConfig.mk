@@ -51,6 +51,9 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 # Platform
 TARGET_BOARD_PLATFORM := hi6210sft
 
+# Properties
+TARGET_SYSTEM_PROP += $(DEVICE_PATH)/configs/props/system.prop
+
 # Recovery
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.hi6210sft
 
