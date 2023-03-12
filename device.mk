@@ -24,3 +24,20 @@ TARGET_SCREEN_WIDTH := 720
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += $(DEVICE_PATH)
+
+# Ramdisk
+PRODUCT_PACKAGES += \
+    fstab.hi6210sft.rc \
+    init.hi6210sft.rc \
+    init.hi6210sft.usb.rc \
+    init.platform.rc \
+    init.connectivity.rc \
+    init.extmodem.rc \
+    init.manufacture.rc \
+    init.tee.rc \
+    ueventd.hi6210sft.rc
+
+# Recovery
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/rootdir/etc/init.recovery.hi6210sft.rc:$(TARGET_RECOVERY_OUT)/root/init.recovery.hi6210sft.rc \
+    $(DEVICE_PATH)/rootdir/etc/init.hi6210sft.usb.rc:$(TARGET_RECOVERY_OUT)/root/init.hi6210sft.usb.rc

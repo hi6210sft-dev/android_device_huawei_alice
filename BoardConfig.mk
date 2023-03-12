@@ -50,6 +50,9 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 # Platform
 TARGET_BOARD_PLATFORM := hi6210sft
 
+# Recovery
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.hi6210sft
+
 # Root
 BOARD_ROOT_EXTRA_FOLDERS += \
     3rdmodem \
