@@ -3,7 +3,6 @@ on early-init
 write /sys/block/mmcblk0/queue/nr_requests 256
 
 on init
-
     mkdir /dev/frz
     mount cgroup none /dev/frz freezer
 
@@ -22,8 +21,6 @@ on init
     chown root system /sys/fs/cgroup/pids/unconfirm_app/cgroup.event_control
     chmod 0220 /sys/fs/cgroup/pids/unconfirm_app/cgroup.event_control
     chmod 0220 /sys/fs/cgroup/pids/cgroup.event_control
-
-on early-fs
 
 on fs
     restorecon       /sys/class/graphics/fb0/lcd_cabc_mode

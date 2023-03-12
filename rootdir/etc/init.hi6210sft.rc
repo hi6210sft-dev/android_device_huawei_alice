@@ -25,18 +25,11 @@ on charger
 
 on fs
     setprop ro.crypto.fuse_sdcard true
-    symlink /splash2/fac_log /data/log/fac_log
-    mount ext4 /dev/block/mmcblk0p34 /cache nosuid nodev noatime wait crypt discard,noauto_da_alloc,data=ordered,user_xattr,discard,barrier=1
-	
-    wait /dev/block/mmcblk0p38
-
-    wait /dev/block/mmcblk0p40
     mount_all /fstab.${ro.hardware}
 
-
+    symlink /splash2/fac_log /data/log/fac_log
     wait /dev/block/platform/hi_mci.0/by-name/oeminfo
     start oeminfo_nvm
-
 
     chmod 0774 /mnvm1:0
     chmod 0774 /mnvm2:0
@@ -138,8 +131,6 @@ on early-boot
     chown radio radio sys/devices/platform/balong_power/state	
 
 on init
-
-    symlink /dev/block/platform/f723d000.dwmmc0 /dev/block/platform/hi_mci.0
     mkdir /dev/frz
     mount cgroup none /dev/frz freezer
 	
@@ -194,7 +185,6 @@ on init
     mount ext4 /dev/block/mmcblk0p12 /mnvm3:0 nosuid nodev noatime wait crypt discard,noauto_da_alloc,data=ordered,user_xattr,discard,barrier=1,context=u:object_r:modem_nv_file:s0
     mount ext4 /dev/block/mmcblk0p17 /modem_log nosuid nodev noatime wait crypt discard,noauto_da_alloc,data=ordered,user_xattr,discard,barrier=1,context=u:object_r:modem_log_file:s0
     wait /dev/block/mmcblk0p11
-    fix_ext4 /sbin/e2fsck_s /dev/block/mmcblk0p11
     mount ext4 /dev/block/mmcblk0p11 /mnvm2:0 nosuid nodev noatime context=u:object_r:modem_nv_file:s0
 
     chmod 0774 /mnvm2:0
@@ -202,7 +192,6 @@ on init
     write /proc/modem_depend 1
 
 on post-fs
-
     chown system system /splash2
     chmod 0775 /splash2
     mkdir /splash2/log 0775 system system
