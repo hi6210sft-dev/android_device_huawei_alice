@@ -1,7 +1,7 @@
 import /init.hi6210sft.usb.rc
 
 on init
-	symlink /dev/block/platform/f723d000.dwmmc0 /dev/block/platform/hi_mci.0
+    symlink /dev/block/platform/f723d000.dwmmc0 /dev/block/bootdevice
 
 on property:sys.usb.config=none
     stop adbd
