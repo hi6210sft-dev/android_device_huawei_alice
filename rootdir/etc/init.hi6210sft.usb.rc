@@ -12,9 +12,12 @@ on post-fs-data
 
 
     chown system system /sys/class/usbswitch/usbsw/swstate
+
 on boot
     write /sys/class/android_usb/android0/iManufacturer ${ro.product.manufacturer}
     write /sys/class/android_usb/android0/iProduct ${ro.product.model}
+
+    setprop sys.usb.ffs.aio_compat 1
 
 on property:sys.usb.config=hisi_debug,adb
     write /sys/class/android_usb/android0/enable 0
