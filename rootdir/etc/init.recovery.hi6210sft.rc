@@ -3,6 +3,9 @@ import /init.hi6210sft.usb.rc
 on init
     symlink /dev/block/platform/f723d000.dwmmc0 /dev/block/bootdevice
 
+on boot
+    setprop sys.usb.ffs.aio_compat 1
+
 on property:sys.usb.config=none
     stop adbd
     stop hdbd
