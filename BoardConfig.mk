@@ -70,5 +70,8 @@ BOARD_ROOT_EXTRA_FOLDERS += \
     sec_storage \
     splash2
 
+# Vintf
+DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/manifest.xml
+
 # SELinux
 BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
