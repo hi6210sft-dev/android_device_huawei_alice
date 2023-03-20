@@ -195,15 +195,15 @@ service watchlssd /system/xbin/watchlssd
 
 on property:bluetooth.log.file.create=true
    mkdir /data/hwzd_logs/bt
-   chown bluetooth net_bt_stack /data/hwzd_logs/bt
+   chown bluetooth bluetooth /data/hwzd_logs/bt
    chmod 775 /data/hwzd_logs/bt
 
    setprop bluetooth.log.file.create false
-   chown bluetooth net_bt_stack /dev/hwbt
+   chown bluetooth bluetooth /dev/hwbt
 
 
 service macaddr /system/bin/mac_addr_normalization
     class late_start
     user root
-    group root bluetooth net_bt_stack wifi
+    group root bluetooth bluetooth wifi
     oneshot
