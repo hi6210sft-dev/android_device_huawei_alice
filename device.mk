@@ -149,6 +149,10 @@ PRODUCT_PACKAGES += \
     init.tee.rc \
     ueventd.hi6210sft.rc
 
+# RIL
+PRODUCT_PACKAGES += \
+    mploader
+
 # Recovery
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/rootdir/etc/init.recovery.hi6210sft.rc:$(TARGET_RECOVERY_OUT)/root/init.recovery.hi6210sft.rc \
