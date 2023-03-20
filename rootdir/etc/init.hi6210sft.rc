@@ -136,10 +136,6 @@ on init
 	
     mkdir /modem_log 0771 system system
 	
-    mkdir /cust
-    mkdir /splash2
-    mkdir /3rdmodem
-
     symlink /splash2 /log
 
     write /proc/sys/kernel/dmesg_restrict 1

@@ -58,7 +58,6 @@ BOARD_ROOT_EXTRA_FOLDERS += \
     3rdmodem \
     3rdmodemnvm \
     3rdmodemnvmbkp \
-    cust \
     mnvm1:0 \
     mnvm2:0 \
     mnvm3:0 \
