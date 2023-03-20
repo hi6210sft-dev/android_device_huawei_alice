@@ -22,6 +22,9 @@ TARGET_2ND_CPU_VARIANT := cortex-a53
 # Apexes
 TARGET_FLATTEN_APEX := true
 
+# Audio
+USE_XML_AUDIO_POLICY_CONF := 1
+
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := hi6210sft
 
