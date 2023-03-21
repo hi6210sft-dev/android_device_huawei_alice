@@ -9,6 +9,8 @@ on init
     write /sys/kernel/hmp/up_threshold 512
     write /sys/kernel/hmp/down_threshold 256
 
+    symlink /dev/block/platform/hi_mci.0 /dev/block/bootdevice
+
 on early-boot
     write /sys/block/dm-0/queue/read_ahead_kb 2048
 
