@@ -89,6 +89,8 @@ BOARD_ROOT_EXTRA_FOLDERS += \
     sec_storage \
     splash2
 
+BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
+
 # Vintf
 DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/manifest.xml
 

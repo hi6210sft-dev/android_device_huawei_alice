@@ -139,7 +139,6 @@ PRODUCT_PACKAGES += \
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.hi6210sft.rc \
-    fstab.hi6210sft_ramdisk \
     init.hi6210sft.rc \
     init.hi6210sft.usb.rc \
     init.platform.rc \
