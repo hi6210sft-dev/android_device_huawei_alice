@@ -92,6 +92,7 @@ BOARD_ROOT_EXTRA_FOLDERS += \
 
 # Shims
 TARGET_LD_SHIM_LIBS := \
+    /system/bin/glgps|libshim_glgps.so \
     /system/lib/hw/audio.primary.hi6210sft.so|libshim_audio.so \
     /system/lib64/hw/audio.primary.hi6210sft.so|libshim_audio.so
 

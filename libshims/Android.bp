@@ -9,3 +9,11 @@ cc_library_shared {
         "libtinyalsa",
     ],
 }
+
+cc_library_shared {
+    name: "libshim_glgps",
+    srcs: ["libshim_glgps.cpp"],
+    shared_libs: [
+        "libsensor",
+    ],
+}
