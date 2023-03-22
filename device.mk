@@ -149,6 +149,11 @@ PRODUCT_PACKAGES += \
     init.tee.rc \
     ueventd.hi6210sft.rc
 
+PRODUCT_PACKAGES += \
+    hw_ueventd \
+    oeminfo_nvm_server \
+    teecd
+
 # RIL
 PRODUCT_PACKAGES += \
     mploader
