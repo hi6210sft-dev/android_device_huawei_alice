@@ -163,6 +163,10 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/seccomp/mediacodec.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediacodec.policy \
     $(LOCAL_PATH)/configs/seccomp/mediaextractor.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediaextractor.policy
 
+# Shim libraries
+PRODUCT_PACKAGES += \
+    libshim_audio
+
 # USB
 PRODUCT_PACKAGES += \
     android.hardware.usb@1.0-service.basic

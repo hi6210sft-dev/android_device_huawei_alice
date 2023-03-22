@@ -1,0 +1,11 @@
+cc_library_shared {
+    name: "libshim_audio",
+    srcs: ["libshim_audio.cpp"],
+    include_dirs: [
+        "external/tinyalsa/include",
+        "system/core/include/cutils",
+    ],
+    shared_libs: [
+        "libtinyalsa",
+    ],
+}

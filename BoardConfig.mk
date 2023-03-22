@@ -90,6 +90,11 @@ BOARD_ROOT_EXTRA_FOLDERS += \
     sec_storage \
     splash2
 
+# Shims
+TARGET_LD_SHIM_LIBS := \
+    /system/lib/hw/audio.primary.hi6210sft.so|libshim_audio.so \
+    /system/lib64/hw/audio.primary.hi6210sft.so|libshim_audio.so
+
 # Vintf
 DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/manifest.xml
 
