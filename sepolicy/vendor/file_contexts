@@ -16,3 +16,8 @@
 /dev/tc_ns_client		u:object_r:teecd_device:s0
 /dev/block/mmcblk0rpmb		u:object_r:teecd_blkdev:s0
 /dev/tf_driver			u:object_r:tee_device:s0
+
+# Oeminfo
+/sbin/oeminfo_nvm_server	u:object_r:oeminfo_nvm_exec:s0
+/dev/socket/oeminfo_nvm		u:object_r:oeminfo_nvm_socket:s0
+/dev/block/platform/hi_mci.0/by-name/oeminfo	u:object_r:oeminfo_nvm_device:s0
