@@ -770,8 +770,8 @@ lib/libAntiTheftService.so
 lib/libhwtee_jni.so
 lib64/libAntiTheftService.so
 lib64/libhwtee_jni.so
-lib/libteec.so
-lib64/libteec.so
+lib/libteec.so|51f6da468a488d87d65a246f2a143eeba0a836db
+lib64/libteec.so|8f504fd0a2aa6719e8edede7871ccfed11195622
 
 # Thermal
 etc/thermald.xml
