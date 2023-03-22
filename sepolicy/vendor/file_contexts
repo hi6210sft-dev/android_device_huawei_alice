@@ -9,3 +9,10 @@
 /modem_log(/.*)?		u:object_r:modem_log_file:s0
 /sec_storage(/.*)?		u:object_r:teecd_data_file:s0
 /splash2(/.*)?			u:object_r:splash2_data_file:s0
+
+# TEE
+/sbin/teecd                     u:object_r:tee_exec:s0
+/dev/socket/tee-multi-user	u:object_r:tee_multi_user_socket:s0
+/dev/tc_ns_client		u:object_r:teecd_device:s0
+/dev/block/mmcblk0rpmb		u:object_r:teecd_blkdev:s0
+/dev/tf_driver			u:object_r:tee_device:s0
