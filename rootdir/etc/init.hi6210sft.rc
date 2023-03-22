@@ -519,37 +519,9 @@ service immvibed /system/bin/immvibed -p 99 -u 1000
     user root
     group root
 
-service kerneldump /system/etc/kerneldump.sh
-    class main
-    user root
-    group system
-    oneshot
-service bugreport /system/bin/dumpstate -d -p -B -o /data/data/com.android.shell/files/bugreports/bugreport
-    class main
-    disabled
-    oneshot 
-
-service ccorecat /system/bin/dmesgcat -i /dev/log/ccore -e s -r 4096 -z 2 -n 5 -f /data/hisi_logs/cp_log/coredump/ccorecat-log
-    class late_start
-    user root
-    group system
-    disabled
-
-service telemntncat /system/bin/dmesgcat -i /proc/telemntn -e b -r 10240 -z 3 -n 1 -f /data/hisi_logs/ap_log/telemntncat-log
-    class late_start
-    user root
-    group system
-    disabled
-
 service defragd /system/bin/defragd
     class late_start
 	
-service exch /system/etc/log/android_panic.sh
-    class main
-    user root
-    group system
-    oneshot
-
 service akmd09911 /system/bin/akmd09911
     class main
     user system
