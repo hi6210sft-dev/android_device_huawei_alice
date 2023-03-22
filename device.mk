@@ -166,6 +166,7 @@ PRODUCT_COPY_FILES += \
 # Shim libraries
 PRODUCT_PACKAGES += \
     libshim_audio \
+    libshim_crypto \
     libshim_glgps
 
 # USB
