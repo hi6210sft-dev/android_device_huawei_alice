@@ -401,7 +401,7 @@ system/lib/libhw_display_effect.so
 system/lib/libhw_display_test.so
 system/lib/libhwgl.so
 system/lib/libhwsmartdisplay_jni.so
-system/lib/libion.so
+system/lib/libion.so:system/lib/libion-hisi.so
 system/lib/libvpu.so
 system/lib64/egl/libGLES_android.so
 system/lib64/egl/libGLES_mali.so
@@ -420,7 +420,7 @@ system/lib64/libhw_display_effect.so
 system/lib64/libhw_display_test.so
 system/lib64/libhwgl.so
 system/lib64/libhwsmartdisplay_jni.so
-system/lib64/libion.so
+system/lib64/libion.so:system/lib64/libion-hisi.so
 system/lib64/libvpu.so
 system/vendor/lib/libeaglecore.so
 

@@ -94,7 +94,9 @@ BOARD_ROOT_EXTRA_FOLDERS += \
 TARGET_LD_SHIM_LIBS := \
     /system/bin/glgps|libshim_glgps.so \
     /system/lib/hw/audio.primary.hi6210sft.so|libshim_audio.so \
-    /system/lib64/hw/audio.primary.hi6210sft.so|libshim_audio.so
+    /system/lib64/hw/audio.primary.hi6210sft.so|libshim_audio.so \
+    /system/lib/hw/gralloc.hi6210sft.so|libion-hisi.so \
+    /system/lib64/hw/gralloc.hi6210sft.so|libion-hisi.so
 
 # Vintf
 DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/manifest.xml
