@@ -751,6 +751,8 @@ system/lib64/libhsa_msgprocess.so
 system/lib64/libhuawei_mmi_test.so
 system/lib64/libmmiautotest.so
 system/lib64/libprojectmenu.so
+system/lib/libril.so
+system/lib64/libril.so
 system/isp.bin
 
 # Sensors
