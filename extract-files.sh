@@ -62,6 +62,15 @@ function blob_fixup() {
 	    sed -i 's/GB2312/iso-8859-1/g' "${2}"
 	    sed -i 's/xmlversion/xml version/g' "${2}"
             ;;
+        system/bin/chargemonitor)
+            sed -i 's/\([Uu][Cc][Nn][Vv]_[A-Za-z_]*\)_55/\1_63/g' "${2}"
+            ;;
+        system/bin/glgps)
+            sed -i 's/\([Uu][Cc][Nn][Vv]_[A-Za-z_]*\)_55/\1_63/g' "${2}"
+            ;;
+        system/lib*/hw/audio.primary.hi6210sft.so)
+            sed -i 's/\([Uu][Cc][Nn][Vv]_[A-Za-z_]*\)_55/\1_63/g' "${2}"
+            ;;
     esac
 }
 
