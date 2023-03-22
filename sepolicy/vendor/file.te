@@ -9,3 +9,5 @@ type splash2_data_file, file_type;
 
 # TEE
 type teecd_data_file, file_type;
+type tee_multi_user_socket, dev_type;
+type teecd_blkdev, dev_type, file_type;
