@@ -32,7 +32,7 @@ ro.config.hw_support_geofence=true
 ro.config.hw_gps_power_track=true
 
 # Graphics
-debug.hwui.render_dirty_regions=false
+debug.hwui.use_partial_updates=false
 persist.sys.jankenable=true
 sys.refresh.dirty=1
 
