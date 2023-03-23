@@ -75,6 +75,9 @@ function blob_fixup() {
         lib*/libril.so)
             sed -i 's/\([Uu][Cc][Nn][Vv]_[A-Za-z_]*\)_55/\1_63/g' "${2}"
             ;;
+        vendor/lib/mediadrm/libwvdrmengine.so)
+            sed -i "s/libprotobuf-cpp-lite.so/libprotobuf-cpp-N.so\x00\x00\x00/" "${2}"
+            ;;
     esac
 }
 
