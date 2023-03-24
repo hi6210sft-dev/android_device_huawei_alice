@@ -143,7 +143,6 @@ lib/soundfx/libreverbwrapper.so
 lib/soundfx/libvisualizer.so
 lib/libaudio_custom.so
 lib/libaudioalgoservice_jni.so
-lib/libaudioeffect_jni.so
 lib/libaudiotestalgo.so
 lib/libcommon_time_client.so
 lib/libdts_hpx_service_c.so
@@ -163,7 +162,6 @@ lib64/soundfx/libreverbwrapper.so
 lib64/soundfx/libvisualizer.so
 lib64/libaudio_custom.so
 lib64/libaudioalgoservice_jni.so
-lib64/libaudioeffect_jni.so
 lib64/libaudiotestalgo.so
 lib64/libcommon_time_client.so
 lib64/libdts_hpx_service_c.so
