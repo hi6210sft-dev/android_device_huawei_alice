@@ -758,6 +758,7 @@ lib64/libprojectmenu.so
 -lib/libril.so
 -lib64/libril.so
 isp.bin
+phone.prop:vendor/phone.prop
 
 # Sensors
 lib64/hw/sensors.default.so:lib64/hw/sensors.hi6210sft.so
