@@ -117,6 +117,10 @@ TARGET_LD_SHIM_LIBS := \
     /system/lib/libhwsmartdisplay_jni.so|libshim_gui.so \
     /system/lib64/libhwsmartdisplay_jni.so|libshim_gui.so
 
+# SDK
+TARGET_PROCESS_SDK_VERSION_OVERRIDE += \
+    /system/vendor/bin/hw/rild=27
+
 # Vintf
 DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/manifest.xml
 
