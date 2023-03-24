@@ -85,6 +85,10 @@ struct hwc_context_t {
     hwc_composer_device_1_t device;
     /* our private state goes below here */
     fb_ctx_t disp[3];
+    int32_t xres;
+    int32_t yres;
+    int32_t xdpi;
+    int32_t ydpi;
 };
 
 static void write_string(const char * path, const char * value) {
@@ -279,6 +283,87 @@ static int hwc_blank(struct hwc_composer_device_1* dev, int disp, int blank) {
     return ret;
 }
 
+static int hwc_setPowerMode(struct hwc_composer_device_1 *dev, int disp, int mode)
+{
+        struct hwc_context_t *context = (hwc_context_t *)dev;
+	int ret = -EINVAL, value;
+
+	if (disp == HWC_DISPLAY_PRIMARY) {
+		switch(mode) {
+			case HWC_POWER_MODE_OFF:
+			case HWC_POWER_MODE_DOZE:
+			case HWC_POWER_MODE_DOZE_SUSPEND:
+				value = FB_BLANK_POWERDOWN;
+				break;
+			case HWC_POWER_MODE_NORMAL:
+			default:
+				value = FB_BLANK_UNBLANK;
+				break;
+		}
+		ret = ioctl(context->disp[disp].fd, FBIOBLANK, value);
+    }
+    return ret;
+}
+
+
+static int hwc_getDisplayConfigs(hwc_composer_device_1 *dev,
+		int disp ,uint32_t *config ,size_t *numConfigs)
+{
+        struct hwc_context_t *context = (hwc_context_t *)dev;
+
+	if (*numConfigs == 0)
+		return 0;
+
+	if (disp == HWC_DISPLAY_PRIMARY) {
+		config[0] = 0;
+		*numConfigs = 1;
+		return 0;
+	}
+
+	return -EINVAL;
+}
+
+static int hwc_getDisplayAttributes(hwc_composer_device_1 *dev, int disp, uint32_t config,
+					const uint32_t *attributes, int32_t *values)
+{
+        struct hwc_context_t *context = (hwc_context_t *)dev;
+
+	for (int i = 0; attributes[i] != HWC_DISPLAY_NO_ATTRIBUTE; i++) {
+		switch(attributes[i]) {
+		    case HWC_DISPLAY_VSYNC_PERIOD:
+			values[i] = REFRESH_PERIOD;
+			break;
+		    case HWC_DISPLAY_WIDTH:
+			values[i] = context->xres; // FIXME
+			break;
+		    case HWC_DISPLAY_HEIGHT:
+			values[i] = context->yres; // FIXME
+			break;
+		    case HWC_DISPLAY_DPI_X:
+			values[i] = context->xdpi*1000.0;
+			break;
+		    case HWC_DISPLAY_DPI_Y:
+			values[i] = context->ydpi*1000.0;
+			break;
+		    default:
+			values[i] = -EINVAL;
+			break;
+		}
+	}
+
+	return 0;
+}
+
+static int hwc_getActiveConfig(struct hwc_composer_device_1* dev, int disp)
+{
+    return 0;
+}
+
+static int hwc_setActiveConfig(struct hwc_composer_device_1* dev, int disp, int index)
+{
+    return 0;
+}
+
 static void register_procs(struct hwc_composer_device_1* dev,
             hwc_procs_t const* procs) {
     struct hwc_context_t *context = (hwc_context_t *)dev;
@@ -300,6 +385,10 @@ static int query(struct hwc_composer_device_1* dev, int what, int* value) {
 		break;
 	    case HWC_VSYNC_PERIOD:
 		retval = REFRESH_PERIOD;	
+		value = &retval;
+		break;
+	    case HWC_DISPLAY_TYPES_SUPPORTED:
+		retval = HWC_DISPLAY_PRIMARY_BIT;
 		value = &retval;
 		break;
 	    default:
@@ -333,7 +422,7 @@ static int hwc_device_open(const struct hw_module_t* module, const char* name,
 
         /* initialize the procs */
         dev->device.common.tag = HARDWARE_DEVICE_TAG;
-        dev->device.common.version = HWC_DEVICE_API_VERSION_1_0;
+        dev->device.common.version = HWC_DEVICE_API_VERSION_1_4;
         dev->device.common.module = const_cast<hw_module_t*>(module);
         dev->device.common.close = hwc_device_close;
 
@@ -341,8 +430,13 @@ static int hwc_device_open(const struct hw_module_t* module, const char* name,
         dev->device.set = hwc_set;
         dev->device.blank = hwc_blank;
         dev->device.eventControl = hwc_event_control;
-        dev->device.registerProcs = register_procs;
-        dev->device.query = query;
+	dev->device.registerProcs = register_procs;
+        dev->device.setPowerMode = hwc_setPowerMode;
+	dev->device.getActiveConfig = hwc_getActiveConfig;
+	dev->device.setActiveConfig = hwc_setActiveConfig;
+	dev->device.getDisplayConfigs = hwc_getDisplayConfigs;
+	dev->device.getDisplayAttributes = hwc_getDisplayAttributes;
+	dev->device.query = query;
 	/* init primary display */
 	dev->disp[HWC_DISPLAY_PRIMARY].vthread_running = 0;
 	dev->disp[HWC_DISPLAY_PRIMARY].vsync_on = 0;
@@ -391,6 +485,20 @@ static int hwc_device_open(const struct hw_module_t* module, const char* name,
 	dev->disp[HWC_DISPLAY_VIRTUAL].vsync_stop = 0;
 	dev->disp[HWC_DISPLAY_VIRTUAL].vsync_on = 0;
         *device = &dev->device.common;
+
+	struct fb_var_screeninfo lcdinfo;
+	if (ioctl(dev->disp[HWC_DISPLAY_PRIMARY].fd, FBIOGET_VSCREENINFO, &lcdinfo) < 0) {
+		ALOGE("%s: failed to get vscreeninfo", __func__);
+		return -EINVAL;
+	}
+
+	ALOGI("%s: %d %d %d %d %d %d %d", __func__,lcdinfo.width, lcdinfo.height, lcdinfo.yres,
+			lcdinfo.left_margin ,lcdinfo.right_margin, lcdinfo.xres, lcdinfo.pixclock);
+
+	dev->xres = lcdinfo.xres;
+	dev->yres = lcdinfo.yres;
+	dev->xdpi = (lcdinfo.xres * 25.4f * 1000.0f) / lcdinfo.width;
+	dev->ydpi = (lcdinfo.yres * 25.4f * 1000.0f) / lcdinfo.height;
     }
     return status;
 }
