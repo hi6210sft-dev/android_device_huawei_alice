@@ -175,7 +175,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     libshim_audio \
     libshim_crypto \
-    libshim_glgps
+    libshim_glgps \
+    libshim_gui
 
 # USB
 PRODUCT_PACKAGES += \
