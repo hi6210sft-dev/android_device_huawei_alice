@@ -44,6 +44,9 @@ on fs
     chown root root /dsp:0
 
 on post-fs-data
+    # Allow writing to the kernel trace log.
+    chmod 0222 /sys/kernel/debug/tracing/trace_marker
+
     mkdir /data/media 0770 media_rw media_rw
 
     mount sdcardfs /data/media /mnt/shell/emulated nosuid nodev derive=legacy,reserved_mb=20
