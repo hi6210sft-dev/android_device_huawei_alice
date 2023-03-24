@@ -758,8 +758,8 @@ lib64/libhsa_msgprocess.so
 lib64/libhuawei_mmi_test.so
 lib64/libmmiautotest.so
 lib64/libprojectmenu.so
-lib/libril.so
-lib64/libril.so
+-lib/libril.so
+-lib64/libril.so
 isp.bin
 
 # Sensors

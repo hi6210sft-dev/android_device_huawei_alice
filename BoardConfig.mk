@@ -84,6 +84,10 @@ TARGET_SYSTEM_PROP += $(DEVICE_PATH)/configs/props/system.prop
 # Recovery
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.hi6210sft
 
+# RIL
+BOARD_PROVIDES_RILD := true
+BOARD_PROVIDES_LIBRIL := true
+
 # Root
 BOARD_ROOT_EXTRA_FOLDERS += \
     3rdmodem \
