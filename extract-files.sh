@@ -72,7 +72,7 @@ function blob_fixup() {
         lib*/hw/audio.primary.hi6210sft.so)
             sed -i 's/\([Uu][Cc][Nn][Vv]_[A-Za-z_]*\)_55/\1_63/g' "${2}"
             ;;
-        lib*/libril.so)
+        lib/libril.so)
             sed -i 's/\([Uu][Cc][Nn][Vv]_[A-Za-z_]*\)_55/\1_63/g' "${2}"
             ;;
         vendor/lib/mediadrm/libwvdrmengine.so)

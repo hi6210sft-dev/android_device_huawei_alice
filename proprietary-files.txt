@@ -759,7 +759,7 @@ lib64/libhuawei_mmi_test.so
 lib64/libmmiautotest.so
 lib64/libprojectmenu.so
 -lib/libril.so
--lib64/libril.so
+-lib64/libril.so|2d39fd04ecce78247d9cd47fe5ed3f6d42400c95
 isp.bin
 phone.prop:vendor/phone.prop
 
