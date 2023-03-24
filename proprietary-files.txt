@@ -440,6 +440,8 @@ vendor/lib/libWVStreamControlAPI_L3.so
 vendor/lib/libwvdrm_L3.so
 vendor/lib/libwvm.so
 vendor/lib64/mediadrm/libdrmclearkeyplugin.so
+lib/libstlport.so|0bb8e6d65f4229aa47edbd64836a8d69ae9760ed
+lib64/libstlport.so|263237da2ebb1757d204d548c0bf4e2012938f98
 
 # FM
 bin/fm_server_hisi
