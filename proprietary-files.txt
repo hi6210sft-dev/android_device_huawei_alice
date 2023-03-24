@@ -712,7 +712,7 @@ bin/modem_resetinfo
 bin/modemlogcat_lte
 bin/oam_app
 bin/octty
-bin/rild
+bin/rild:vendor/bin/hw/rild
 etc/manufacture/CARMEL_L03.xml
 etc/manufacture/CARMEL_L03E.xml
 etc/manufacture/CARMEL_L21.xml
