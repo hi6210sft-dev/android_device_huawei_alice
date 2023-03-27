@@ -9,6 +9,7 @@
 /modem_log(/.*)?		u:object_r:modem_log_file:s0
 /sec_storage(/.*)?		u:object_r:teecd_data_file:s0
 /splash2(/.*)?			u:object_r:splash2_data_file:s0
+/log(/.*)?                      u:object_r:splash2_data_file:s0
 
 # TEE
 /sbin/teecd                     u:object_r:tee_exec:s0
