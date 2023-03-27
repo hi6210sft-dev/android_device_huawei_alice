@@ -8,7 +8,7 @@ on charger
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor optdemand
 
 on fs
-    mount_all /vendor/etc/fstab.${ro.hardware}
+    mount_all /vendor/etc/fstab.${ro.hardware} --early
 
     # Turn the modem on
     write /sys/devices/platform/his_modem/modem_sysboot_start 1
@@ -101,6 +101,10 @@ on early-boot
     chown system system /proc/getslice
 
     chown radio radio sys/devices/platform/balong_power/state	
+
+on late-fs
+    # Mount RW partitions which need run fsck
+    mount_all /vendor/etc/fstab.${ro.hardware} --late
 
 on init
     write /sys/kernel/hmp/up_threshold 512
