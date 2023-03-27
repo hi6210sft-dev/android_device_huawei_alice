@@ -128,40 +128,6 @@ service hostapd_bin /system/bin/hostapd_hisi -d /data/misc/wifi/hostapd_hisi.con
     class main
     disabled
     oneshot
-service dhcpcd_wlan0 /system/bin/dhcpcd -BKL
-    class main
-    disabled
-    oneshot
-
-service dhcpcd_p2p /system/bin/dhcpcd -aABKL
-    class main
-    disabled
-    oneshot
-
-service dhcpcd_bnep0 /system/bin/dhcpcd -ABKL
-    class main
-    disabled
-    oneshot
-
-service dhcpcd_bt-pan /system/bin/dhcpcd -ABKL
-    class main
-    disabled
-    oneshot
-
-service iprenew_wlan0 /system/bin/dhcpcd -n
-    class main
-    disabled
-    oneshot
-
-service iprenew_p2p /system/bin/dhcpcd -n
-    class main
-    disabled
-    oneshot
-
-service iprenew_bnep0 /system/bin/dhcpcd -n
-    class main
-    disabled
-    oneshot
 
 service hsgnss /system/bin/gnss_engine -normal
     class late_start
@@ -200,7 +166,6 @@ on property:bluetooth.log.file.create=true
 
    setprop bluetooth.log.file.create false
    chown bluetooth bluetooth /dev/hwbt
-
 
 service macaddr /system/bin/mac_addr_normalization
     class late_start

@@ -153,7 +153,6 @@ PRODUCT_PACKAGES += \
     init.platform.rc \
     init.connectivity.rc \
     init.extmodem.rc \
-    init.manufacture.rc \
     init.tee.rc \
     ueventd.hi6210sft.rc
 
