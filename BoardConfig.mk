@@ -99,7 +99,11 @@ BOARD_ROOT_EXTRA_FOLDERS += \
     modem_fw \
     modem_log \
     sec_storage \
-    splash2
+    splash2 \
+    log
+
+BOARD_ROOT_EXTRA_SYMLINKS := \
+    /splash2:/log
 
 # Shims
 TARGET_LD_SHIM_LIBS := \
