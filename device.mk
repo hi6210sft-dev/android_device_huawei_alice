@@ -10,6 +10,9 @@ DEVICE_PATH := device/huawei/alice
 ## Inherit vendor blobs
 $(call inherit-product, vendor/huawei/alice/alice-vendor.mk)
 
+# Inherit go optimizations for hi6210sft
+$(call inherit-product, device/huawei/alice/go_opt.mk)
+
 # AAPT
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
