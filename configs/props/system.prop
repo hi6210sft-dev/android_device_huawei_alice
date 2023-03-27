@@ -34,6 +34,7 @@ ro.config.hw_gps_power_track=true
 # Graphics
 debug.hwui.use_partial_updates=false
 debug.hwui.use_buffer_age=false
+debug.sf.disable_backpressure=1
 persist.sys.jankenable=true
 sys.refresh.dirty=1
 
