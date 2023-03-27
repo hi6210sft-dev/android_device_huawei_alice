@@ -9,6 +9,10 @@ on charger
 
 on fs
     mount_all /vendor/etc/fstab.${ro.hardware}
+
+    # Turn the modem on
+    write /sys/devices/platform/his_modem/modem_sysboot_start 1
+
     symlink /splash2/fac_log /data/log/fac_log
     wait /dev/block/platform/hi_mci.0/by-name/oeminfo
     start oeminfo_nvm
