@@ -1,61 +1,24 @@
+import /vendor/etc/init/hw/init.hi6210sft.usb.rc
 import /vendor/etc/init/hw/init.tee.rc
+import /vendor/etc/init/hw/init.platform.rc
 import /vendor/etc/init/hw/init.extmodem.rc
 import /vendor/etc/init/hw/init.connectivity.rc
-import /vendor/etc/init/hw/init.platform.rc
-import /vendor/etc/init/hw/init.hi6210sft.usb.rc
-import /vendor/etc/init/hw/init.manufacture.rc
-
-on init
-    write /sys/kernel/hmp/up_threshold 512
-    write /sys/kernel/hmp/down_threshold 256
-
-    symlink /dev/block/platform/hi_mci.0 /dev/block/bootdevice
-
-on early-boot
-    write /sys/block/dm-0/queue/read_ahead_kb 2048
-
-    verity_update_state
-
-    symlink /sdcard /mnt/sdcard
-    symlink /storage/self/primary /storage/sdcard0
-    mkdir /mnt/media_rw 0750 media_rw media_rw
-    mkdir /mnt/pstore 0770 root system
-    mount pstore pstore /mnt/pstore
 
 on charger
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor optdemand
 
 on fs
-    setprop ro.crypto.fuse_sdcard true
     mount_all /vendor/etc/fstab.${ro.hardware}
-
     symlink /splash2/fac_log /data/log/fac_log
     wait /dev/block/platform/hi_mci.0/by-name/oeminfo
     start oeminfo_nvm
-
-    chmod 0774 /mnvm1:0
-    chmod 0774 /mnvm2:0
-    chmod 0774 /mnvm3:0
-    chmod 0774 /dsp:0
-	
-    chown root root /mnvm1:0
-    chown root root /mnvm2:0
-    chown root root /mnvm3:0
-    chown root root /dsp:0
 
 on post-fs-data
     # Allow writing to the kernel trace log.
     chmod 0222 /sys/kernel/debug/tracing/trace_marker
 
-    mkdir /data/media 0770 media_rw media_rw
-
-    mount sdcardfs /data/media /mnt/shell/emulated nosuid nodev derive=legacy,reserved_mb=20
-
-    mkdir /data/share 0775 sdcard_rw sdcard_rw
-    chown sdcard_rw sdcard_rw /data/share
-    mount sdcardfs /data/share /mnt/shell/emulated
-
 on early-boot
+    write /sys/block/dm-0/queue/read_ahead_kb 2048
     chown system system /dev/memory_throughput
     chown system system /sys/class/devfreq/ddrfreq/ddr_bandwidth
     chmod 774 /sys/class/devfreq/ddrfreq/ddr_bandwidth
@@ -136,15 +99,11 @@ on early-boot
     chown radio radio sys/devices/platform/balong_power/state	
 
 on init
-    mkdir /dev/frz
-    mount cgroup none /dev/frz freezer
-	
-    mkdir /modem_log 0771 system system
-	
-    symlink /splash2 /log
+    write /sys/kernel/hmp/up_threshold 512
+    write /sys/kernel/hmp/down_threshold 256
 
-    write /proc/sys/kernel/dmesg_restrict 1
-	
+    symlink /dev/block/platform/hi_mci.0 /dev/block/bootdevice
+
     chown system system /dev/memsetdev
     chmod 660 /dev/memsetdev
     chown keystore keystore /dev/kmdev
@@ -162,42 +121,27 @@ on init
     chown media media /dev/tfa9887
     chown media media /dev/ttyAMA1
 
-    write /sys/module/block2mtd/parameters/block2mtd /dev/block/mmcblk0p7
     wait /dev/nve0
     chmod 0770 /dev/nve0
     chown root system /dev/nve0
 
-	chmod 0660 /dev/maxim_smartpa_dev
-	chown media media /dev/maxim_smartpa_dev
-	chmod 0660 /dev/speakerID
-	chown media media /dev/speakerID
-	chmod 0660 /dev/hi6402_hifi_misc
-	chown media media /dev/hi6402_hifi_misc
-	chmod 0660 /dev/ttyAMA0
-	chown media media /dev/ttyAMA0
-	chmod 0660 /dev/anc_hs
-	chown media media /dev/anc_hs
+    chmod 0660 /dev/maxim_smartpa_dev
+    chown media media /dev/maxim_smartpa_dev
+    chmod 0660 /dev/speakerID
+    chown media media /dev/speakerID
+    chmod 0660 /dev/hi6402_hifi_misc
+    chown media media /dev/hi6402_hifi_misc
+    chmod 0660 /dev/ttyAMA0
+    chown media media /dev/ttyAMA0
+    chmod 0660 /dev/anc_hs
+    chown media media /dev/anc_hs
 
     chown system system /dev/log/switch
     chmod 0660 /dev/log/switch
-
-    write /sys/module/block2mtd/parameters/block2mtd /dev/block/mmcblk0p19
-        
-    mount ext4 /dev/block/mmcblk0p12 /mnvm3:0 nosuid nodev noatime wait crypt discard,noauto_da_alloc,data=ordered,user_xattr,discard,barrier=1,context=u:object_r:modem_nv_file:s0
-    mount ext4 /dev/block/mmcblk0p17 /modem_log nosuid nodev noatime wait crypt discard,noauto_da_alloc,data=ordered,user_xattr,discard,barrier=1,context=u:object_r:modem_log_file:s0
-    wait /dev/block/mmcblk0p11
-    mount ext4 /dev/block/mmcblk0p11 /mnvm2:0 nosuid nodev noatime context=u:object_r:modem_nv_file:s0
-
-    chmod 0774 /mnvm2:0
-    chown root root /mnvm2:0
     write /proc/modem_depend 1
 
 on post-fs
-    chown system system /splash2
-    chmod 0775 /splash2
     mkdir /splash2/log 0775 system system
-	
-    mount tmpfs tmpfs /mnt/secure private rec
 	
     mkdir /data/hisi_logs 0774 root system
     mkdir /data/hisi_logs/ap_log 0774 root system
@@ -280,11 +224,11 @@ on boot
     chown system system /sys/touchscreen/fw_update_sd
     chown system system /sys/touchscreen/touch_project_id
     chown system system /sys/touchscreen/touch_chip_info
-	chown system system /sys/touchscreen/roi_enable
-	chown system system /sys/touchscreen/roi_data
-	chown system system /sys/touchscreen/roi_data_debug
-	chown system system /sys/touchscreen/support_tp_feature
-	chown system system /sys/touchscreen/touch_weight
+    chown system system /sys/touchscreen/roi_enable
+    chown system system /sys/touchscreen/roi_data
+    chown system system /sys/touchscreen/roi_data_debug
+    chown system system /sys/touchscreen/support_tp_feature
+    chown system system /sys/touchscreen/touch_weight
     chown system system /sys/touchscreen/hw_mmi_index
     chown system system /sys/touchscreen/cyttsp5_device_access.main_ttsp_core/rawdata_check
     chown system system /sys/touchscreen/cyttsp5_device_access.main_ttsp_core/command
@@ -370,15 +314,15 @@ on boot
     chown system system /sys/bus/i2c/devices/2-0038/enable_als_sensor
     chown system system /sys/bus/i2c/devices/2-0038/als_poll_delay
     chown system system /sys/hall/hall_sensor
-	chown system system /sys/class/sensors/als_sensor/enable
-	chown system system /sys/class/sensors/als_sensor/set_delay
-	chown system system /sys/class/sensors/ps_sensor/enable
-	chown system system /sys/class/sensors/acc_sensor/enable
-	chown system system /sys/class/sensors/acc_sensor/set_delay
-	chown system system /sys/class/sensors/mag_sensor/enable
-	chown system system /sys/class/sensors/mag_sensor/set_delay
-	chown system system /sys/class/sensors/mag_sensor/self_test
-	chown system system /sys/class/sensors/hall_sensor/enable
+    chown system system /sys/class/sensors/als_sensor/enable
+    chown system system /sys/class/sensors/als_sensor/set_delay
+    chown system system /sys/class/sensors/ps_sensor/enable
+    chown system system /sys/class/sensors/acc_sensor/enable
+    chown system system /sys/class/sensors/acc_sensor/set_delay
+    chown system system /sys/class/sensors/mag_sensor/enable
+    chown system system /sys/class/sensors/mag_sensor/set_delay
+    chown system system /sys/class/sensors/mag_sensor/self_test
+    chown system system /sys/class/sensors/hall_sensor/enable
     chown system system /sys/class/compass/akm09911/accel
     chown system system /sys/class/compass/akm09911/compass_info
     chown system system /sys/class/compass/akm09911/delay_acc
@@ -434,25 +378,24 @@ on boot
     chown system system /sys/touchscreen/response
     chown system system /sys/touchscreen/status
 
-
     write /proc/sys/kernel/hung_task_panic 1
     write /proc/sys/kernel/hung_task_timeout_secs 120
     write /sys/kernel/hungtask/monitorlist "whitelist,system_server,surfaceflinger"
     write /sys/kernel/hungtask/enable "on"
 
-     write /proc/sys/net/core/rps_sock_flow_entries 0
-     write /sys/class/net/rmnet0/queues/rx-0/rps_flow_cnt 0
-     write /sys/class/net/rmnet0/queues/rx-0/rps_cpus f
-     write /sys/class/net/rmnet1/queues/rx-0/rps_flow_cnt 0
-     write /sys/class/net/rmnet1/queues/rx-0/rps_cpus f
-     write /sys/class/net/rmnet2/queues/rx-0/rps_flow_cnt 0
-     write /sys/class/net/rmnet2/queues/rx-0/rps_cpus f
-     write /sys/class/net/rmnet3/queues/rx-0/rps_flow_cnt 0
-     write /sys/class/net/rmnet3/queues/rx-0/rps_cpus f
-     write /sys/class/net/rmnet4/queues/rx-0/rps_flow_cnt 0
-     write /sys/class/net/rmnet4/queues/rx-0/rps_cpus f
-     write /sys/class/net/rmnet_ims/queues/rx-0/rps_flow_cnt 0
-     write /sys/class/net/rmnet_ims/queues/rx-0/rps_cpus f
+    write /proc/sys/net/core/rps_sock_flow_entries 0
+    write /sys/class/net/rmnet0/queues/rx-0/rps_flow_cnt 0
+    write /sys/class/net/rmnet0/queues/rx-0/rps_cpus f
+    write /sys/class/net/rmnet1/queues/rx-0/rps_flow_cnt 0
+    write /sys/class/net/rmnet1/queues/rx-0/rps_cpus f
+    write /sys/class/net/rmnet2/queues/rx-0/rps_flow_cnt 0
+    write /sys/class/net/rmnet2/queues/rx-0/rps_cpus f
+    write /sys/class/net/rmnet3/queues/rx-0/rps_flow_cnt 0
+    write /sys/class/net/rmnet3/queues/rx-0/rps_cpus f
+    write /sys/class/net/rmnet4/queues/rx-0/rps_flow_cnt 0
+    write /sys/class/net/rmnet4/queues/rx-0/rps_cpus f
+    write /sys/class/net/rmnet_ims/queues/rx-0/rps_flow_cnt 0
+    write /sys/class/net/rmnet_ims/queues/rx-0/rps_cpus f
 
     write /sys/block/zram0/comp_algorithm lz4
     write /sys/block/zram0/disksize 256MB
@@ -538,23 +481,6 @@ on property:service.bootanim.exit=1
 on property:ro.runmode=factory	
     chown system system /proc/balong/ddr_test/hisi_dt_on
     chown system system /proc/balong/ddr_test/hisi_dt_off
-
-service check_system /sbin/hw_crit_service_sys
-    class main
-    oneshot
-    seclabel u:r:check_system:s0
-
-service lmk_config /system/bin/sh /system/bin/lmk_config.sh
-    class late_start
-    user root
-    group system shell
-    disabled
-    oneshot
-    seclabel u:r:lmk_config:s0
-
-on property:sys.boot_completed=1
-    start check_system
-    start lmk_config
 
 on property:apexd.status=ready
     mount none /system/etc/swcodec/ld.config.txt /apex/com.android.media.swcodec/etc/ld.config.txt bind 
