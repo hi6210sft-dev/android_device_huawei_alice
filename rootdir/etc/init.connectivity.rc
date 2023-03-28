@@ -8,13 +8,15 @@ on post-fs-data
     restorecon_recursive /data/gnss
     mkdir /data/misc/wifi 0770 wifi wifi
     chown wifi wifi /data/misc/wifi
-    mkdir /data/misc/wifi/sockets 0770 wifi wifi
     chown wifi wifi /data/misc/wifi/p2p_supplicant.conf
     chown wifi wifi /data/misc/wifi/p2p_supplicant_hisi.conf
     chown wifi wifi /data/misc/wifi/wpa_supplicant.conf
     chmod 0660 /data/misc/wifi/p2p_supplicant.conf
     chmod 0660 /data/misc/wifi/p2p_supplicant_hisi.conf
     chmod 0660 /data/misc/wifi/wpa_supplicant.conf
+    mkdir /data/vendor/wifi 0771 wifi wifi
+    mkdir /data/vendor/wifi/wpa 0770 wifi wifi
+    mkdir /data/vendor/wifi/wpa/sockets 0770 wifi wifi
     mkdir /data/misc/dhcp 0770 dhcp dhcp
     chown dhcp dhcp /data/misc/dhcp
     restorecon  /data/misc/wifi/wpa_supplicant.conf
@@ -110,7 +112,7 @@ on property:init.svc.hisi_bfg=stopped
     start fm_server_hisi
 
 service wpa_supplicant /vendor/bin/hw/wpa_supplicant \
-    -g@android:wpa_wlan0
+    -O/data/vendor/wifi/wpa/sockets -g@android:wpa_wlan0
     interface android.hardware.wifi.supplicant@1.0::ISupplicant default
     interface android.hardware.wifi.supplicant@1.1::ISupplicant default
     class main
