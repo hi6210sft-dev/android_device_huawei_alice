@@ -6,8 +6,6 @@ on post-fs-data
     restorecon_recursive /data/memdump
     restorecon_recursive /data/hwlogdir
     restorecon_recursive /data/gnss
-    mkdir /data/misc/wifi 0770 wifi wifi
-    chown wifi wifi /data/misc/wifi
     chown wifi wifi /data/misc/wifi/p2p_supplicant.conf
     chown wifi wifi /data/misc/wifi/p2p_supplicant_hisi.conf
     chown wifi wifi /data/misc/wifi/wpa_supplicant.conf
@@ -17,8 +15,6 @@ on post-fs-data
     mkdir /data/vendor/wifi 0771 wifi wifi
     mkdir /data/vendor/wifi/wpa 0770 wifi wifi
     mkdir /data/vendor/wifi/wpa/sockets 0770 wifi wifi
-    mkdir /data/misc/dhcp 0770 dhcp dhcp
-    chown dhcp dhcp /data/misc/dhcp
     restorecon  /data/misc/wifi/wpa_supplicant.conf
     restorecon  /data/misc/wifi/p2p_supplicant.conf
     restorecon  /data/misc/wifi/p2p_supplicant_hisi.conf
