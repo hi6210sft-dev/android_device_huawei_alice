@@ -110,7 +110,6 @@ on property:init.svc.hisi_bfg=stopped
     start fm_server_hisi
 
 service wpa_supplicant /vendor/bin/hw/wpa_supplicant \
-    -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
     -e/data/misc/wifi/entropy.bin -g@android:wpa_wlan0
     interface android.hardware.wifi.supplicant@1.0::ISupplicant default
     interface android.hardware.wifi.supplicant@1.1::ISupplicant default
