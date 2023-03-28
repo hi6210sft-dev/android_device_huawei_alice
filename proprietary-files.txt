@@ -804,16 +804,12 @@ bin/hi110x_dump
 bin/hi110x_except_logd
 bin/hi110x_logd
 bin/hisi_connectivity.sh
-bin/hostapd_cli_hisi
-bin/hostapd_hisi
 bin/mac_addr_normalization
 bin/supl20clientd
 bin/wifichrdump
 bin/wifiwakeupsrc
 bin/wl
 bin/wl_config
-bin/wpa_cli_hisi
-bin/wpa_supplicant_hisi
 lib/libHwTmr.so
 lib/libhardware_legacy_bcm.so
 lib/libhardware_legacy_hisi.so
