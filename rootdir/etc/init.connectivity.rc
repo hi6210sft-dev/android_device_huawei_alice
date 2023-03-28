@@ -29,6 +29,10 @@ on boot
     # Wifi firmware reload path
     chown wifi wifi /sys/module/bcmdhd/parameters/firmware_path
 
+    # Create directories for wifihal services
+    mkdir /dev/socket/wifihal 0770 wifi wifi
+    chmod 2770 /dev/socket/wifihal
+
     chmod 660 /dev/ttyAMA1
     chown bluetooth bluetooth /dev/ttyAMA1
 
