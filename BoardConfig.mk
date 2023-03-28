@@ -120,8 +120,6 @@ BOARD_ROOT_EXTRA_SYMLINKS := \
 # Shims
 TARGET_LD_SHIM_LIBS := \
     /system/bin/glgps|libshim_glgps.so \
-    /system/bin/hostapd_hisi|libshim_crypto.so \
-    /system/bin/wpa_supplicant_hisi|libshim_crypto.so \
     /system/lib/hw/audio.primary.hi6210sft.so|libshim_audio.so \
     /system/lib64/hw/audio.primary.hi6210sft.so|libshim_audio.so \
     /system/lib/hw/gralloc.hi6210sft.so|libion-hisi.so \
