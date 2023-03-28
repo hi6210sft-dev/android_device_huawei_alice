@@ -516,6 +516,7 @@ bin/glgps
 bin/gnss_engine
 bin/gpsdaemon
 bin/gpslogd
+bin/supl20clientd
 etc/gnss/config/SUPLConfigParams.xml
 etc/gnss/config/gnssconfig.xml
 etc/gnss/lacrnc/index.bin
@@ -536,14 +537,24 @@ lib/libagnssal.so
 lib/libgnssadapter.so
 lib/libgps_factory_test.so
 lib/libgps_factory_test_hi110x.so
+lib/libsupl10client.so
+lib/libsupl20client.so
+lib/libsupl20comon.so
+lib/libsupl20if.so
+lib/libsupl20oasn1comn.so
+lib/libsupl20oasn1lpp.so
+lib/libsupl20oasn1rrc.so
+lib/libsupl20oasn1rrlp.so
+lib/libsupl20oasn1rrlpv12.so
+lib/libsupl20oasn1supl1.so
+lib/libsupl20oasn1supl2.so
+lib/libsupl20oasn1tia.so 
 lib64/hw/gps.hi110x.default.so
 lib64/hw/gps.hi6210sft.so
 lib64/libagnssal.so
 lib64/libgnssadapter.so
 lib64/libgps_factory_test.so
 lib64/libgps_factory_test_hi110x.so
-lib/libsupl20comon.so
-lib/libsupl20if.so
 
 # IMS
 hw_oem/ALE-L21/xml/hw_ims_config.xml
@@ -805,7 +816,6 @@ bin/hi110x_except_logd
 bin/hi110x_logd
 bin/hisi_connectivity.sh
 bin/mac_addr_normalization
-bin/supl20clientd
 bin/wifichrdump
 bin/wifiwakeupsrc
 bin/wl
