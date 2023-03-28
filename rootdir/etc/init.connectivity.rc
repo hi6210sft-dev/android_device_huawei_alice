@@ -28,6 +28,9 @@ on post-fs-data
     restorecon_recursive /data/misc/wifi
 
 on boot
+    # Wifi firmware reload path
+    chown wifi wifi /sys/module/bcmdhd/parameters/firmware_path
+
     chmod 660 /dev/ttyAMA1
     chown bluetooth bluetooth /dev/ttyAMA1
 
