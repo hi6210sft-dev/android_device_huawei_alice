@@ -131,7 +131,8 @@ TARGET_LD_SHIM_LIBS := \
     /system/lib/libhwsmartdisplay_jni.so|libshim_gui.so \
     /system/lib64/libhwsmartdisplay_jni.so|libshim_gui.so \
     /system/lib/libcamera_core.so|libshim_camera.so \
-    /system/lib/libcamera_core.so|libshim_sensorlistener.so
+    /system/lib/libcamera_core.so|libshim_sensorlistener.so \
+    /system/lib/libcamera_core.so|libsensor.so
 
 # SDK
 TARGET_PROCESS_SDK_VERSION_OVERRIDE += \
