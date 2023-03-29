@@ -32,3 +32,29 @@ cc_library_shared {
     shared_libs: ["libexif"],
     static_libs: ["libskia"],
 }
+
+cc_library_shared {
+    name: "libshim_sensorlistener",
+
+    srcs: [
+        "gui/ISensorServer.cpp",
+        "gui/SensorManager.cpp",
+    ],
+
+    local_include_dirs: ["include"],
+
+    shared_libs: [
+        "libbase",
+        "libbinder",
+        "libsensor",
+        "libcutils",
+        "libhardware",
+        "libhidlbase",
+        "libsync",
+        "libui",
+        "libnativeloader",
+        "libgui",
+        "libutils",
+        "liblog",
+    ],
+}
