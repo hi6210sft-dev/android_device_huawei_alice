@@ -25,3 +25,9 @@ cc_library_shared {
         "libgui",
     ],
 }
+
+cc_library_shared {
+    name: "libshim_camera",
+    srcs: ["libshim_camera.cpp"],
+    static_libs: ["libskia"],
+}
