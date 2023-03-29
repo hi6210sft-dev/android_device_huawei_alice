@@ -184,7 +184,6 @@ PRODUCT_COPY_FILES += \
 # Shim libraries
 PRODUCT_PACKAGES += \
     libshim_audio \
-    libshim_glgps \
     libshim_gui \
     libshim_camera \
     libshim_sensorlistener

@@ -11,14 +11,6 @@ cc_library_shared {
 }
 
 cc_library_shared {
-    name: "libshim_glgps",
-    srcs: ["libshim_glgps.cpp"],
-    shared_libs: [
-        "libsensor",
-    ],
-}
-
-cc_library_shared {
     name: "libshim_gui",
     srcs: ["libshim_gui.cpp"],
     shared_libs: [
