@@ -29,5 +29,6 @@ cc_library_shared {
 cc_library_shared {
     name: "libshim_camera",
     srcs: ["libshim_camera.cpp"],
+    shared_libs: ["libexif"],
     static_libs: ["libskia"],
 }
