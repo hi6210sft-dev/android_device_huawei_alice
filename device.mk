@@ -168,7 +168,6 @@ PRODUCT_PACKAGES += \
     ueventd.hi6210sft.rc
 
 PRODUCT_PACKAGES += \
-    hw_ueventd \
     oeminfo_nvm_server \
     teecd
 
