@@ -1,0 +1,29 @@
+From eba8138ed2685553b12f703cfc7fb720c5233a65 Mon Sep 17 00:00:00 2001
+From: Jan Altensen <info@stricted.net>
+Date: Fri, 31 Mar 2023 01:11:30 +0200
+Subject: [PATCH 2/2] device: Forcefully enable BLE
+
+Change-Id: If344ea0fdbb136bd06f47668bd64c5959e5ba9f3
+---
+ device/src/controller.cc | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/device/src/controller.cc b/device/src/controller.cc
+index 6525c14..1416406 100644
+--- a/device/src/controller.cc
++++ b/device/src/controller.cc
+@@ -199,6 +199,11 @@ static future_t* start_up(void) {
+   }
+ #endif
+ 
++  // Force this to 1 because 0 or less is wrong
++  if (last_features_classic_page_index < 1)
++      last_features_classic_page_index = 1;
++
++  ble_supported = true;
+   ble_supported = last_features_classic_page_index >= 1 &&
+                   HCI_LE_HOST_SUPPORTED(features_classic[1].as_array);
+   if (ble_supported) {
+-- 
+2.30.2
+

@@ -1,0 +1,28 @@
+From eca975e71c0ef160f0ee239b68a6c6a4a9c54bb1 Mon Sep 17 00:00:00 2001
+From: Muhammad Fahad Baig <muhammad.fb.79@gmail.com>
+Date: Mon, 20 Mar 2023 20:11:58 +0100
+Subject: [PATCH] minui: fbdev: Add support for FBIOPAN_DISPLAY
+
+* Required by old HiSi SoCs (i.e: hi6210sft).
+---
+ minui/graphics_fbdev.cpp | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/minui/graphics_fbdev.cpp b/minui/graphics_fbdev.cpp
+index 2584017d..1c9f2496 100644
+--- a/minui/graphics_fbdev.cpp
++++ b/minui/graphics_fbdev.cpp
+@@ -51,6 +51,10 @@ void MinuiBackendFbdev::SetDisplayedFramebuffer(size_t n) {
+   vi.bits_per_pixel = gr_framebuffer[0]->pixel_bytes * 8;
+   if (ioctl(fb_fd, FBIOPUT_VSCREENINFO, &vi) < 0) {
+     perror("active fb swap failed");
++  } else {
++      if (ioctl(fb_fd, FBIOPAN_DISPLAY, &vi) < 0) {
++        perror("pan failed");
++      }
+   }
+   displayed_buffer = n;
+ }
+-- 
+2.30.2
+

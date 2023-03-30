@@ -1,0 +1,63 @@
+From 566f67ab1695916dc36d1a8c7e8e984d403e897f Mon Sep 17 00:00:00 2001
+From: R0rt1z2 <rogerortizleal@gmail.com>
+Date: Tue, 21 Mar 2023 23:53:13 +0100
+Subject: [PATCH] init: Fix mount compatibility with legacy block devices
+
+* Unfortunately, neither our kernel nor our bootloader are able to
+  create the symlinks to /dev/block/platform/<platform_name>/by-name
+  and we are forced to use /dev/block/mmcblk0p<partition_number>.
+
+* As we cannot use SaR either (since we do not have control over our
+  dt image), we are forced to use 2SI, which relies on early mounting.
+
+* For whatever reason, the first argument (system) being passed to the
+  function that handles block devices is different from the name inside
+  required_devices_partition_names_ (mmcblk0p38) and the poll fails (1).
+
+* Respect the original check and add an additional one that uses the path
+  of the uevent that gets passed as the second argument (which seems to
+  match with required_devices_partition_names_).
+
+- [1] bool android::init::FirstStageMount::InitRequiredDevices(): partition(s) not found after polling timeout: mmcblk0p38
+---
+ init/first_stage_mount.cpp | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
+
+diff --git a/init/first_stage_mount.cpp b/init/first_stage_mount.cpp
+index 3e76556ff..0913d9aeb 100644
+--- a/init/first_stage_mount.cpp
++++ b/init/first_stage_mount.cpp
+@@ -383,14 +383,27 @@ ListenerAction FirstStageMount::HandleBlockDevice(const std::string& name, const
+     // Matches partition name to create device nodes.
+     // Both required_devices_partition_names_ and uevent->partition_name have A/B
+     // suffix when A/B is used.
++    bool isFound = false;
+     auto iter = required_devices_partition_names_.find(name);
+-    if (iter != required_devices_partition_names_.end()) {
+-        LOG(VERBOSE) << __PRETTY_FUNCTION__ << ": found partition: " << *iter;
++
++    if (iter != required_devices_partition_names_.end() ||
++        (uevent.path.find_last_of('/') != std::string::npos &&
++             required_devices_partition_names_.find(uevent.path.substr(uevent.path.find_last_of('/') + 1)) != required_devices_partition_names_.end())) {
++                 isFound = true;
++    }
++
++    if (isFound) {
++        LOG(ERROR) << __PRETTY_FUNCTION__ << ": found partition: " << name;
+         if (IsDmLinearEnabled() && name == super_partition_name_) {
+             std::vector<std::string> links = device_handler_->GetBlockDeviceSymlinks(uevent);
+             lp_metadata_partition_ = links[0];
+         }
+-        required_devices_partition_names_.erase(iter);
++        if (iter != required_devices_partition_names_.end()) {
++            required_devices_partition_names_.erase(iter);
++        } else {
++            auto path_iter = required_devices_partition_names_.find(uevent.path.substr(uevent.path.find_last_of('/') + 1));
++            required_devices_partition_names_.erase(path_iter);
++        }
+         device_handler_->HandleUevent(uevent);
+         if (required_devices_partition_names_.empty()) {
+             return ListenerAction::kStop;
+-- 
+2.30.2
+

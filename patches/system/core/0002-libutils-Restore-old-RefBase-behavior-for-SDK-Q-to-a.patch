@@ -1,0 +1,41 @@
+From 7ec3d2e4f5fa5c96b786581ed7e83f6f3e92b973 Mon Sep 17 00:00:00 2001
+From: Joel Stein <js@funkturm.net>
+Date: Thu, 30 Mar 2023 17:29:43 +0200
+Subject: [PATCH 2/2] libutils: Restore old RefBase-behavior for SDK < Q to
+ avoid loops with legacy blobs
+
+---
+ libutils/RefBase.cpp | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
+
+diff --git a/libutils/RefBase.cpp b/libutils/RefBase.cpp
+index ae107893c..7c98f2106 100644
+--- a/libutils/RefBase.cpp
++++ b/libutils/RefBase.cpp
+@@ -715,14 +715,15 @@ RefBase::~RefBase()
+         }
+     } else if (mRefs->mStrong.load(std::memory_order_relaxed) == INITIAL_STRONG_VALUE) {
+         // We never acquired a strong reference on this object.
+-#if DEBUG_REFBASE_DESTRUCTION
+-        // Treating this as fatal is prone to causing boot loops. For debugging, it's
+-        // better to treat as non-fatal.
+-        ALOGD("RefBase: Explicit destruction, weak count = %d (in %p)", mRefs->mWeak.load(), this);
+-        CallStack::logStack(LOG_TAG);
+-#else
+-        LOG_ALWAYS_FATAL("RefBase: Explicit destruction, weak count = %d", mRefs->mWeak.load());
+-#endif
++        // In Android Q this also fails for objects with 0 weak references.
++        // Restore old behavior if the SDK version precedes Q.
++        if ((mRefs->mWeak.load() != 0)) {
++            // Treating this as fatal is prone to causing boot loops. For debugging, it's
++            // better to treat as non-fatal.
++            ALOGD("RefBase: Explicit destruction, weak count = %d (in %p)", mRefs->mWeak.load(), this);
++            CallStack::logStack(LOG_TAG);
++	}
++        delete mRefs;
+     }
+     // For debugging purposes, clear mRefs.  Ineffective against outstanding wp's.
+     const_cast<weakref_impl*&>(mRefs) = nullptr;
+-- 
+2.30.2
+
