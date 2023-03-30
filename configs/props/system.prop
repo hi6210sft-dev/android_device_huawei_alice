@@ -96,6 +96,7 @@ ro.config.linkplus.liveupdate=true
 media.stagefright.use-awesome=false
 ro.config.amrwb_disable=true
 ro.config.hw_media_flags=3
+debug.stagefright.ccodec=0
 
 # Platform
 ro.product.platform.pseudonym=1ARB9CV
