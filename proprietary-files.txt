@@ -191,6 +191,7 @@ lib64/libbt_factory_test_hi110x.so
 lib64/libbtaddrjni.so
 vendor/lib/libbt-vendor-hi110x.so
 vendor/lib/libbt-vendor.so
+vendor/lib64/libbt-vendor.so|be4b3cf25a1d0debdd3b38e4cc3a79183679b5e5
 vendor/lib64/libbt-vendor-hi110x.so
 
 # Camera
