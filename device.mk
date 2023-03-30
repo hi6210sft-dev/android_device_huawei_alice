@@ -79,6 +79,7 @@ PRODUCT_PACKAGES += \
 # Camera
 PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.4-impl-legacy \
+    camera.device@1.0-impl-alice \
     libcamera_parameters_ext_alice
 
 PRODUCT_PACKAGES += \
