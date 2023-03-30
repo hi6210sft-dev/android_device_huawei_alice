@@ -94,6 +94,8 @@ ro.config.linkplus.liveupdate=true
 
 # OMX
 media.stagefright.use-awesome=false
+debug.stagefright.omx_default_rank.sw-audio=1
+debug.stagefright.omx_default_rank=0
 ro.config.amrwb_disable=true
 ro.config.hw_media_flags=3
 debug.stagefright.ccodec=0
