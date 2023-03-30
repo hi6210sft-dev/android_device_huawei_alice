@@ -81,6 +81,9 @@ PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.4-impl-legacy \
     libcamera_parameters_ext_alice
 
+PRODUCT_PACKAGES += \
+    Snap
+
 # Gatekeeper
 PRODUCT_PACKAGES += \
     android.hardware.gatekeeper@1.0-service.software
