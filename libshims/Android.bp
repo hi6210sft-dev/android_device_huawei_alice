@@ -51,8 +51,9 @@ cc_library_shared {
     ],
 }
 
-cc_library_static {
+cc_library_shared {
     name: "libcamera_parameters_ext_alice",
     include_dirs: ["frameworks/av/include"],
     srcs: ["CameraParameters.cpp"],
+    shared_libs: ["libutils", "libcutils", "liblog"],
 }

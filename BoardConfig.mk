@@ -51,7 +51,6 @@ BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
 
 # Camera
 TARGET_HAS_LEGACY_CAMERA_HAL1 := true
-TARGET_SPECIFIC_CAMERA_PARAMETER_LIBRARY := libcamera_parameters_ext_alice
 
 # Dexpreopt
 ifeq ($(HOST_OS),linux)
@@ -133,7 +132,9 @@ TARGET_LD_SHIM_LIBS := \
     /system/lib64/libhwsmartdisplay_jni.so|libshim_gui.so \
     /system/lib/libcamera_core.so|libshim_camera.so \
     /system/lib/libcamera_core.so|libshim_sensorlistener.so \
-    /system/lib/libcamera_core.so|libsensor.so
+    /system/lib/libcamera_core.so|libsensor.so \
+    /system/lib/hw/camera.hi6210sft.so|libcamera_parameters_ext_alice.so \
+    /system/lib64/hw/camera.hi6210sft.so|libcamera_parameters_ext_alice.so
 
 # SDK
 TARGET_PROCESS_SDK_VERSION_OVERRIDE += \
