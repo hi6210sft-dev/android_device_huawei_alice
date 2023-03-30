@@ -10,9 +10,6 @@ on charger
 on fs
     mount_all /vendor/etc/fstab.${ro.hardware} --early
 
-    # Turn the modem on
-    write /sys/devices/platform/his_modem/modem_sysboot_start 1
-
     symlink /splash2/fac_log /data/log/fac_log
     wait /dev/block/platform/hi_mci.0/by-name/oeminfo
     start oeminfo_nvm
@@ -434,7 +431,7 @@ on property:ro.runmode=*
     start telemntncat
 
 service ril-daemon /vendor/bin/hw/rild
-    class core
+    class late_start
     socket rild stream 660 root radio
     socket rild-ims stream 660 root radio
     socket rildm2 stream 660 root radio
@@ -452,6 +449,10 @@ service ril-daemon1 /vendor/bin/hw/rild -c 1
     socket rild-balong-test stream 660 radio system
     user root
     group radio cache inet misc audio sdcard_r sdcard_rw log
+
+on property:sys.userdata_is_ready=1
+    write /sys/devices/platform/his_modem/modem_sysboot_start 1
+    start ril-daemon
 
 on property:rild.rild1_ready_to_start=true
     start ril-daemon1
