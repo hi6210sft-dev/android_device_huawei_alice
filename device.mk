@@ -99,6 +99,10 @@ PRODUCT_PACKAGES += \
     android.hardware.memtrack@1.0-service \
     android.hardware.renderscript@1.0-impl
 
+# GPS
+PRODUCT_PACKAGES += \
+    android.hardware.gnss@1.0-impl.legacy
+
 # Health
 PRODUCT_PACKAGES += \
     android.hardware.health@2.0-impl \
