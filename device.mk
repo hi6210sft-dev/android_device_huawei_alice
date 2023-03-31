@@ -213,6 +213,11 @@ PRODUCT_PACKAGES += \
     libshim_camera \
     libshim_sensorlistener
 
+# Touch
+ifneq ($(wildcard vendor/lineage/.),)
+    PRODUCT_PACKAGES += vendor.lineage.touch@1.0-service.hisi
+endif
+
 # USB
 PRODUCT_PACKAGES += \
     android.hardware.usb@1.0-service.basic
