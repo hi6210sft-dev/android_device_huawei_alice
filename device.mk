@@ -115,6 +115,11 @@ PRODUCT_PACKAGES += \
     android.hardware.light@2.0-service \
     lights.hi6210sft
 
+# LiveDisplay
+ifneq ($(wildcard vendor/lineage/.),)
+    PRODUCT_PACKAGES += vendor.lineage.livedisplay@2.0-service-hisi
+endif
+
 # Media
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/media/media_codecs.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/media_codecs.xml \

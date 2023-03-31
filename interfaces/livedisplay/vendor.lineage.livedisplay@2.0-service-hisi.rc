@@ -1,0 +1,12 @@
+on init
+    # LiveDisplay hisi
+    chown system system /sys/devices/virtual/graphics/fb0/lcd_color_temperature
+    chmod 0660 /sys/devices/virtual/graphics/fb0/lcd_color_temperature
+
+    chown system system /dev/pri_lcd
+    chmod 0660 /dev/pri_lcd
+
+service vendor.livedisplay-hal-2-0-hisi /vendor/bin/hw/vendor.lineage.livedisplay@2.0-service-hisi
+    class hal
+    user system
+    group system
