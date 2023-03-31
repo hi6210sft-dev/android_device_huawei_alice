@@ -200,4 +200,11 @@
          that have a HWC implementation that can apply the matrix passed to setColorTransform
          without impacting power, performance, and app compatibility (e.g. protected content). -->
     <bool name="config_nightDisplayAvailable">false</bool>
+
+    <!-- Device configuration indicating whether we should avoid using accelerated graphics
+         in certain places to reduce RAM footprint.  This is ignored if ro.config.low_ram
+         is true (in that case this is assumed true as well).  It can allow you to tune down
+         your device's memory use without going to the point of causing applications to turn
+         off features. -->
+    <bool name="config_avoidGfxAccel">true</bool>
 </resources>
