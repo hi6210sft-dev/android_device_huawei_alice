@@ -776,7 +776,7 @@ isp.bin
 phone.prop:vendor/phone.prop
 
 # Sensors
-lib64/hw/sensors.default.so:lib64/hw/sensors.hi6210sft.so
+lib64/hw/sensors.default.so:lib64/sensors.alice.so
 lib/hw/sensorcaps.default.so
 lib64/hw/sensorcaps.default.so
 
