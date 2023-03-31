@@ -35,6 +35,7 @@ using ::android::hardware::graphics::common::V1_0::BufferUsage;
 using ::android::hardware::graphics::common::V1_0::PixelFormat;
 
 HandleImporter CameraDevice::sHandleImporter;
+CameraDevice* sUser = nullptr;
 
 Status CameraDevice::getHidlStatus(const int& status) {
     switch (status) {
@@ -361,7 +362,7 @@ CameraDevice::CameraHeapMemory::~CameraHeapMemory() {
 // shared memory methods
 camera_memory_t* CameraDevice::sGetMemory(int fd, size_t buf_size, uint_t num_bufs, void *user) {
     ALOGV("%s", __FUNCTION__);
-    CameraDevice* object = static_cast<CameraDevice*>(user);
+    CameraDevice* object = (user == nullptr)? sUser : static_cast<CameraDevice*>(user);
     if (object->mDeviceCallback == nullptr) {
         ALOGE("%s: camera HAL request memory while camera is not opened!", __FUNCTION__);
         return nullptr;
@@ -718,6 +719,7 @@ Return<Status> CameraDevice::open(const sp<ICameraDeviceCallback>& callback) {
 #endif
 
     if (mDevice->ops->set_callbacks) {
+        sUser = this;
         mDevice->ops->set_callbacks(mDevice,
                 sNotifyCb, sDataCb, sDataCbTimestamp, sGetMemory, this);
     }
