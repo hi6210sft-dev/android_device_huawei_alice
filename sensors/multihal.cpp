@@ -27,6 +27,8 @@
 #include <fstream>
 #include <map>
 #include <unordered_map>
+#include <chrono>
+#include <thread>
 
 #include <dirent.h>
 #include <dlfcn.h>
@@ -38,7 +40,6 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
-
 
 static pthread_mutex_t init_modules_mutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t init_sensors_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -634,6 +635,8 @@ static void lazy_init_modules() {
     sub_hw_modules = new std::vector<hw_module_t *>();
     dlerror(); // clear any old errors
     const char* sym = HAL_MODULE_INFO_SYM_AS_STR;
+    ALOGV("sleeping for 10s");
+    std::this_thread::sleep_for(std::chrono::milliseconds(10000));
     for (std::vector<std::string>::iterator it = so_paths->begin(); it != so_paths->end(); it++) {
         const char* path = it->c_str();
         void* lib_handle = dlopen(path, RTLD_LAZY);
