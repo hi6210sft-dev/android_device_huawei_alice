@@ -655,9 +655,6 @@ lib64/libhisi_efuse.so
 lib64/libhwlog_jni.so
 
 # NFC
-etc/libnfc-brcm-alice.conf
-etc/libnfc-nxp-alice.conf
-lib64/hw/nfc_nci.pn54x.default.so
 lib64/libifdsmartcardapi.so
 
 # OMX
