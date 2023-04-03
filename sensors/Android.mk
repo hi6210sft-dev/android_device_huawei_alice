@@ -35,6 +35,7 @@ LOCAL_SHARED_LIBRARIES := \
     liblog \
     libutils \
 
+LOCAL_MULTILIB := 64
 LOCAL_STRIP_MODULE := false
 
 include $(BUILD_SHARED_LIBRARY)
