@@ -233,6 +233,11 @@ ifneq ($(wildcard vendor/lineage/.),)
     PRODUCT_PACKAGES += vendor.lineage.touch@1.0-service.hisi
 endif
 
+# Trust
+ifneq ($(wildcard vendor/lineage/.),)
+    PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service
+endif
+
 # USB
 PRODUCT_PACKAGES += \
     android.hardware.usb@1.0-service.basic
