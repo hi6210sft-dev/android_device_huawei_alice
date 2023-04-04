@@ -14,3 +14,5 @@ subsystem graphics_compose
 /dev/tfa9895              0664   system      audio
 /dev/akm09911_dev         0660   system      system
 /dev/block/mmcblk0p4      0660   system      system
+
+/dev/pn544                0664 nfc nfc
