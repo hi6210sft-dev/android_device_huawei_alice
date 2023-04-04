@@ -199,7 +199,15 @@ PRODUCT_PACKAGES += \
 
 # RIL
 PRODUCT_PACKAGES += \
-    mploader
+    mploader \
+    libprotobuf-cpp-full \
+    librmnetctl \
+    libxml2
+
+PRODUCT_PACKAGES += \
+    android.hardware.radio@1.0 \
+    android.hardware.radio@1.1 \
+    android.hardware.radio.deprecated@1.0
 
 # Recovery
 PRODUCT_COPY_FILES += \
