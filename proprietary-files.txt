@@ -380,6 +380,7 @@ lib/libcamera_core.so
 lib/libjpegenchw.so
 lib/libjpu.so
 lib64/libjpu.so
+lib/libcamera_post_mediaserver.so
 vendor/lib/libcalmodule_akm.so
 vendor/lib64/libcalmodule_akm.so
 

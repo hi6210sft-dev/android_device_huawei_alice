@@ -137,7 +137,8 @@ TARGET_LD_SHIM_LIBS := \
     /system/lib/libcamera_core.so|libshim_sensorlistener.so \
     /system/lib/libcamera_core.so|libsensor.so \
     /system/lib/hw/camera.hi6210sft.so|libcamera_parameters_ext_alice.so \
-    /system/lib64/hw/camera.hi6210sft.so|libcamera_parameters_ext_alice.so
+    /system/lib64/hw/camera.hi6210sft.so|libcamera_parameters_ext_alice.so \
+    /system/lib/libcamera_post_mediaserver.so|libshim_camera.so
 
 # SDK
 TARGET_PROCESS_SDK_VERSION_OVERRIDE += \

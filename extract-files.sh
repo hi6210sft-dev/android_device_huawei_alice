@@ -84,6 +84,9 @@ function blob_fixup() {
         lib*/libdrmbitmap.huawei.so)
             sed -i 's/libskia.so/libhwui.so/g' "${2}"
             ;;
+        lib/libcamera_post_mediaserver.so)
+            sed -i 's/libskia.so/libhwui.so/g' "${2}"
+            ;;
         vendor/lib/mediadrm/libwvdrmengine.so)
             sed -i "s/libprotobuf-cpp-lite.so/libprotobuf-cpp-N.so\x00\x00\x00/" "${2}"
             ;;
