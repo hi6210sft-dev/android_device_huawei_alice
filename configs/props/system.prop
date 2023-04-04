@@ -20,6 +20,7 @@ drm.service.enabled=true
 # Dalvik
 dalvik.vm.minidebuginfo=false
 dalvik.vm.dex2oat-minidebuginfo=false
+dalvik.vm.dex2oat64.enabled=true
 
 # Emui
 ro.build.version.emui=EmotionUI_4.1
