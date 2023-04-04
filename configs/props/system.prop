@@ -17,6 +17,10 @@ ro.config.colorTemperature_3d=true
 ro.config.widevine_level3=true
 drm.service.enabled=true
 
+# Dalvik
+dalvik.vm.minidebuginfo=false
+dalvik.vm.dex2oat-minidebuginfo=false
+
 # Emui
 ro.build.version.emui=EmotionUI_4.1
 ro.build.hw_real.version=C02B895
