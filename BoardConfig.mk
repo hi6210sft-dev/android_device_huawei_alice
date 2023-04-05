@@ -55,6 +55,9 @@ BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
 # Camera
 TARGET_HAS_LEGACY_CAMERA_HAL1 := true
 
+# Charger
+BACKLIGHT_PATH := /sys/class/leds/lcd_backlight0/brightness
+
 # Dexpreopt
 ifeq ($(HOST_OS),linux)
   ifneq ($(TARGET_BUILD_VARIANT),eng)
