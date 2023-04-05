@@ -108,6 +108,7 @@ debug.stagefright.omx_default_rank=0
 ro.config.amrwb_disable=true
 ro.config.hw_media_flags=3
 debug.stagefright.ccodec=0
+media.stagefright.thumbnail.prefer_hw_codecs=true
 
 # Platform
 ro.product.platform.pseudonym=1ARB9CV
