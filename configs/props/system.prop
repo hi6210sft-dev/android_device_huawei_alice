@@ -1,5 +1,5 @@
 # Bluetooth
-ro.bt.bdaddr_path=/data/misc/bluedroid/macbt
+ro.bt.bdaddr_path=/data/vendor/bluedroid/macbt
 
 # Battery
 ro.config.small_battery=true
@@ -148,3 +148,6 @@ persist.fw.force_adoptable=true
 ro.config.hw_glovemode_enabled=1
 ro.config.hw_touchplus_enabled=false
 ro.config.hw_easywakeup=true
+
+# Wi-fi
+ro.wifi.wifiaddr_path=/data/vendor/wifi/macwlan

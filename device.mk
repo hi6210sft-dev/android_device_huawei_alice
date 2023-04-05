@@ -124,6 +124,10 @@ ifneq ($(wildcard vendor/lineage/.),)
     PRODUCT_PACKAGES += vendor.lineage.livedisplay@2.0-service-hisi
 endif
 
+# MAC
+PRODUCT_PACKAGES += \
+    mac_nvme
+
 # Media
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/media/media_codecs.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/media_codecs.xml \

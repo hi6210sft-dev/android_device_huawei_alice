@@ -820,7 +820,6 @@ bin/hi110x_dump
 bin/hi110x_except_logd
 bin/hi110x_logd
 bin/hisi_connectivity.sh
-bin/mac_addr_normalization
 bin/wifichrdump
 bin/wifiwakeupsrc
 bin/wl

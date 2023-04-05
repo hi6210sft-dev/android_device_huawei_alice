@@ -1,0 +1,9 @@
+cc_binary {
+    name: "mac_nvme",
+    srcs: ["mac_nvme.cpp"],
+    init_rc: ["mac_nvme.rc"],
+    header_libs: ["libhardware_headers","libutils_headers"],
+    shared_libs: ["libbase"],
+    relative_install_path: "hw",
+    vendor: true,
+}

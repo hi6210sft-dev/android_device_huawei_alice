@@ -12,7 +12,6 @@ on post-fs-data
     chmod 0660 /data/misc/wifi/p2p_supplicant.conf
     chmod 0660 /data/misc/wifi/p2p_supplicant_hisi.conf
     chmod 0660 /data/misc/wifi/wpa_supplicant.conf
-    mkdir /data/vendor/wifi 0771 wifi wifi
     mkdir /data/vendor/wifi/wpa 0770 wifi wifi
     mkdir /data/vendor/wifi/wpa/sockets 0770 wifi wifi
     restorecon  /data/misc/wifi/wpa_supplicant.conf
