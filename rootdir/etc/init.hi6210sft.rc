@@ -7,6 +7,8 @@ import /vendor/etc/init/hw/init.connectivity.rc
 on charger
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor optdemand
 
+    write /sys/class/leds/lcd_backlight0/trigger Battery-charging
+
 on fs
     mount_all /vendor/etc/fstab.${ro.hardware} --early
 
