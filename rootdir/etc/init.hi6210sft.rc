@@ -466,6 +466,13 @@ on property:rild.rild1_ready_to_start=true
 on property:rild.rild1_ready_to_start=false
     symlink /dev/socket/rildm2 /dev/socket/rild2
 
+on property:sys.conn_macs.ready=1
+    chown bluetooth bluetooth /data/vendor/bluedroid/macbt
+    chmod 0666 /data/vendor/bluedroid/macbt
+
+    chown wifi wifi /data/vendor/wifi/macwlan
+    chmod 0666 /data/vendor/wifi/macwlan
+
 on property:ro.hardware.alter=*
     write /proc/sys/kernel/hardware_alter ${ro.hardware.alter}
 

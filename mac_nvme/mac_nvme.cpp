@@ -8,8 +8,9 @@
 // We expect the user to set both properties
 // before running the executable. If they are
 // not set, we will use the default values.
-#define MAC_WIFI_PROP      "ro.wifi.wifiaddr_path"
-#define MAC_BLUETOOTH_PROP "ro.bt.bdaddr_path"
+#define MAC_WIFI_PROP       "ro.wifi.wifiaddr_path"
+#define MAC_BLUETOOTH_PROP  "ro.bt.bdaddr_path"
+#define MACS_ARE_READY_PROP "sys.conn_macs.ready"
 
 // Default paths to the files containing the
 // MAC addresses. These are the same as the
@@ -129,6 +130,9 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
+    // Set the property so init can restore the correct
+    // permission(s).
+    android::base::SetProperty(MACS_ARE_READY_PROP, "1");
     LOG(INFO) << "Successfully read MACs!";
 
     return 0;
