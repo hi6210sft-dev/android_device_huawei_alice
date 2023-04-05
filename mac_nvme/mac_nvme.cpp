@@ -29,6 +29,8 @@
 #include <nvme.h>
 
 #include <sys/ioctl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 char *get_mac_address(int type) {
     int fd = -1;
@@ -127,9 +129,15 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
+    chmod(mac_wifi, 0644);
+    chown(mac_wifi, 1000, 1010);
+
     if (write_mac_address(mac_bluetooth_path, mac_bluetooth) < 0) {
         return -1;
     }
+
+    chmod(mac_bluetooth, 0644);
+    chown(mac_bluetooth, 1000, 1002);
 
     LOG(INFO) << "Successfully read MACs!";
 
