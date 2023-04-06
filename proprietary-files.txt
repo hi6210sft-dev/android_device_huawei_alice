@@ -840,3 +840,5 @@ lib64/libwifi_factory_test.so
 lib64/libwifi_factory_test_hi110x.so
 lib64/libwifipro.so
 lib64/libwpa_client_hisi.so
+vendor/lib/libwifi-hal.so|53d5831bd7d00f0d6a1044375599264163ce8c10
+vendor/lib64/libwifi-hal.so|3166b06813bff79ca0ee04ff9c1a98e63161861b
