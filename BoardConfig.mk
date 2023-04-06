@@ -152,16 +152,12 @@ TARGET_PROCESS_SDK_VERSION_OVERRIDE += \
 DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/manifest.xml
 
 # Wifi
-BOARD_WLAN_DEVICE := bcmdhd
 BOARD_HOSTAPD_DRIVER := NL80211
 BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_bcmdhd
+BOARD_WLAN_DEVICE := bcmdhd
 BOARD_WPA_SUPPLICANT_DRIVER := NL80211
 BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_bcmdhd
 WPA_SUPPLICANT_VERSION := VER_0_8_X
-WIFI_DRIVER_FW_PATH_PARAM := "/sys/module/bcmdhd/parameters/firmware_path"
-WIFI_DRIVER_FW_PATH_STA   := "/system/vendor/firmware/fw_bcm4343.bin"
-WIFI_DRIVER_FW_PATH_AP    := "/system/vendor/firmware/fw_bcm4343s_apsta_hw.bin"
-WIFI_DRIVER_FW_PATH_P2P   := "/system/vendor/firmware/fw_bcm4343s_p2p_hw.bin"
 
 # SELinux
 BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor

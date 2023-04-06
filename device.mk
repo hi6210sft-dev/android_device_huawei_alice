@@ -267,10 +267,7 @@ PRODUCT_PACKAGES += \
     libwpa_client \
     android.hardware.wifi@1.0-service \
     hostapd \
-    wpa_supplicant
+    wpa_supplicant \
+    wpa_supplicant.conf
 
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/wifi/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_SYSTEM)/etc/wifi/p2p_supplicant_overlay.conf \
-    $(LOCAL_PATH)/configs/wifi/wpa_supplicant_overlay.conf:$(TARGET_COPY_OUT_SYSTEM)/etc/wifi/wpa_supplicant_overlay.conf \
-    $(LOCAL_PATH)/configs/wifi/wpa_supplicant.conf:$(TARGET_COPY_OUT_SYSTEM)/etc/wifi/wpa_supplicant.conf \
-    $(LOCAL_PATH)/configs/wifi/hostapd.conf:$(TARGET_COPY_OUT_SYSTEM)/etc/wifi/hostapd.conf
+include hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk
