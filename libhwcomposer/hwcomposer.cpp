@@ -132,14 +132,25 @@ static void dump_layer(hwc_layer_1_t const* l) {
             l->displayFrame.bottom);
 }
 
-static int hwc_prepare(hwc_composer_device_1_t *dev,
-        size_t numDisplays, hwc_display_contents_1_t** displays) {
-    for(size_t j=0; j<numDisplays; j++) {
-	if (displays && (displays[j]->flags & HWC_GEOMETRY_CHANGED)) {
-	    for (size_t i=0 ; i<displays[j]->numHwLayers ; i++) {
-		displays[j]->hwLayers[i].compositionType = HWC_FRAMEBUFFER;
+static int hwc_prepare(hwc_composer_device_1_t *dev, size_t numDisplays, hwc_display_contents_1_t** displays) {
+    ALOGI("%s: numDisplays=%zu", __func__, numDisplays);
+    for (size_t j = 0; j < numDisplays; j++) {
+        if (displays && displays[j] && (displays[j]->flags & HWC_GEOMETRY_CHANGED)) {
+            ALOGI("%s: geometry changed for display %zu", __func__, j);
+            if (displays[j]->numHwLayers > 0) {
+                for (size_t i = 0; i < displays[j]->numHwLayers; i++) {
+                    if (displays[j]->hwLayers[i].compositionType != HWC_BACKGROUND) {
+                        ALOGI("%s: display %zu, compositionType before setting: layer %zu, type %d", __func__, j, i, displays[j]->hwLayers[i].compositionType);
+                        displays[j]->hwLayers[i].compositionType = HWC_FRAMEBUFFER;
+                        ALOGI("%s: display %zu, compositionType after setting: layer %zu, type %d", __func__, j, i, displays[j]->hwLayers[i].compositionType);
+                    }
+                }
+            } else {
+                ALOGI("%s: no hwLayers set for display %zu", __func__, j);
             }
-	}
+        } else {
+            ALOGI("%s: displays or displays[%zu] is NULL", __func__, j);
+        }
     }
     return 0;
 }
