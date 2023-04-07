@@ -287,6 +287,38 @@ static void register_procs(struct hwc_composer_device_1* dev,
     ALOGD("procs registered");
 }
 
+
+static int hwc_getDisplayAttributes(hwc_composer_device_1 *dev, int disp, uint32_t config,
+					const uint32_t *attributes, int32_t *values)
+{
+        struct hwc_context_t *context = (hwc_context_t *)dev;
+
+	for (int i = 0; attributes[i] != HWC_DISPLAY_NO_ATTRIBUTE; i++) {
+		switch(attributes[i]) {
+		    case HWC_DISPLAY_VSYNC_PERIOD:
+			    values[i] = REFRESH_PERIOD;
+			    break;
+		    case HWC_DISPLAY_WIDTH:
+			    values[i] = context->disp[disp].xres;
+			    break;
+		    case HWC_DISPLAY_HEIGHT:
+			    values[i] = context->disp[disp].yres;
+			    break;
+		    case HWC_DISPLAY_DPI_X:
+			    values[i] = context->disp[disp].xdpi * 1000.0;
+			    break;
+		    case HWC_DISPLAY_DPI_Y:
+			    values[i] = context->disp[disp].ydpi * 1000.0;
+			    break;
+		    default:
+			    values[i] = -EINVAL;
+			    break;
+		}
+	}
+
+	return 0;
+}
+
 static int query(struct hwc_composer_device_1* dev, int what, int* value) {
     ALOGD("query %d %d",what,*value);
 
@@ -345,6 +377,7 @@ static int hwc_device_open(const struct hw_module_t* module, const char* name,
         dev->device.blank = hwc_blank;
         dev->device.eventControl = hwc_event_control;
         dev->device.registerProcs = register_procs;
+	dev->device.getDisplayAttributes = hwc_getDisplayAttributes;
         dev->device.query = query;
 	/* init primary display */
 	dev->disp[HWC_DISPLAY_PRIMARY].vthread_running = 0;
