@@ -319,6 +319,30 @@ static int hwc_getDisplayAttributes(hwc_composer_device_1 *dev, int disp, uint32
 	return 0;
 }
 
+static int hwc_getDisplayConfigs(hwc_composer_device_1 *dev, int disp, uint32_t *config, size_t *numConfigs)
+{
+    int ret = 0;
+    struct hwc_context_t *context = (hwc_context_t *)dev;
+    ALOGI("%s: disp=%d, numConfigs=%d", __func__, disp, *numConfigs);
+
+    if (*numConfigs == 0)
+	return ret;
+
+    // For whatever reason the stock HWC only reports configs
+    // for the primary display.
+    switch (disp) {
+        case HWC_DISPLAY_PRIMARY:
+            config[0] = 0;
+            *numConfigs = 1;
+            break;
+        case HWC_DISPLAY_EXTERNAL:
+            ret = -1;
+            break;
+    }
+
+    return ret;
+}
+
 static int query(struct hwc_composer_device_1* dev, int what, int* value) {
     ALOGD("query %d %d",what,*value);
 
@@ -378,6 +402,7 @@ static int hwc_device_open(const struct hw_module_t* module, const char* name,
         dev->device.eventControl = hwc_event_control;
         dev->device.registerProcs = register_procs;
 	dev->device.getDisplayAttributes = hwc_getDisplayAttributes;
+	dev->device.getDisplayConfigs = hwc_getDisplayConfigs;
         dev->device.query = query;
 	/* init primary display */
 	dev->disp[HWC_DISPLAY_PRIMARY].vthread_running = 0;
