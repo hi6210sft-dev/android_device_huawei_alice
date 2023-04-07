@@ -81,6 +81,10 @@ struct fb_ctx_t {
     hwc_procs_t const *hwc_procs;
     pthread_mutex_t mutex;
     pthread_cond_t cond;
+    int32_t xres;
+    int32_t yres;
+    int32_t xdpi;
+    int32_t ydpi;
 };
 
 struct hwc_context_t {
@@ -398,6 +402,26 @@ static int hwc_device_open(const struct hw_module_t* module, const char* name,
 	dev->disp[HWC_DISPLAY_VIRTUAL].vsync_stop = 0;
 	dev->disp[HWC_DISPLAY_VIRTUAL].vsync_on = 0;
         *device = &dev->device.common;
+
+        // Loop over all the displays to get lcdinfo;
+        struct fb_var_screeninfo lcdinfo;
+
+        // We currently support only 3 types of displays.
+        for (int i = 0; i < 3; i++) {
+            if (dev->disp[i].available) {
+                if (ioctl(dev->disp[i].fd, FBIOGET_VSCREENINFO, &lcdinfo) < 0) {
+                    ALOGE("FBIOGET_VSCREENINFO failed for display %d: %s", i, strerror(errno));
+                    status = -EINVAL;
+                }
+                dev->disp[i].xres = lcdinfo.xres;
+                dev->disp[i].yres = lcdinfo.yres;
+                dev->disp[i].xdpi = (lcdinfo.xres * 25.4f) / lcdinfo.width;
+                dev->disp[i].ydpi = (lcdinfo.yres * 25.4f) / lcdinfo.height;
+                ALOGD("Display %d: xres=%d, yres=%d, xdpi=%f, ydpi=%f",
+                        i, dev->disp[i].xres, dev->disp[i].yres,
+                        dev->disp[i].xdpi, dev->disp[i].ydpi);
+            }
+        }
     }
     return status;
 }
