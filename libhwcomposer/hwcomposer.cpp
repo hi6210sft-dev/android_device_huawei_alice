@@ -21,6 +21,7 @@
 #include <hardware/hardware.h>
 #include <utils/ThreadDefs.h>
 #include <utils/Timers.h>
+#include <cstdint>
 #include <errno.h>
 #include <fcntl.h>
 #include <string.h>
@@ -28,6 +29,7 @@
 #include <malloc.h>
 #include <sys/resource.h>
 #include <unistd.h>
+#include <dlfcn.h>
 #include <pthread.h>
 #include <sys/ioctl.h>
 #define LOG_TAG "HWComposer"
@@ -83,6 +85,7 @@ struct hwc_context_t {
     hwc_composer_device_1_t device;
     /* our private state goes below here */
     fb_ctx_t disp[3];
+    void *hwc_handle;
 };
 
 static void write_string(const char * path, const char * value) {
@@ -133,6 +136,21 @@ static void dump_layer(hwc_layer_1_t const* l) {
 }
 
 static int hwc_prepare(hwc_composer_device_1_t *dev, size_t numDisplays, hwc_display_contents_1_t** displays) {
+    struct hwc_context_t *context = (hwc_context_t *)dev;
+    // Make sure the hwc_handle is valid.
+    if (context->hwc_handle == NULL) {
+        ALOGE("hwc_handle is NULL");
+        return -1;
+    }
+
+    // Set up everything to call the original function.
+    typedef int (*HwcPrepareFunc)(void*, size_t, void*);
+    const uintptr_t prepare_offset = 0x00015a88;
+    HwcPrepareFunc func = (HwcPrepareFunc) ((uintptr_t) context->hwc_handle + prepare_offset);
+
+    // Call the original function.
+    return func(context->hwc_handle, numDisplays, displays);
+#if 0
     ALOGI("%s: numDisplays=%zu", __func__, numDisplays);
     for (size_t j = 0; j < numDisplays; j++) {
         if (displays && displays[j] && (displays[j]->flags & HWC_GEOMETRY_CHANGED)) {
@@ -153,6 +171,7 @@ static int hwc_prepare(hwc_composer_device_1_t *dev, size_t numDisplays, hwc_dis
         }
     }
     return 0;
+#endif
 }
 
 static int hwc_set(hwc_composer_device_1_t *dev,
@@ -487,6 +506,13 @@ static int hwc_device_open(const struct hw_module_t* module, const char* name,
                         i, dev->disp[i].xres, dev->disp[i].yres,
                         dev->disp[i].xdpi, dev->disp[i].ydpi);
             }
+        }
+
+        // Load hwcomposer.alice.so.
+        dev->hwc_handle = dlopen("hwcomposer.alice.so", RTLD_NOW);
+        if (dev->hwc_handle == NULL) {
+            ALOGE("Failed to load hwcomposer.alice.so: %s", dlerror());
+            status = -EINVAL;
         }
     }
     return status;
