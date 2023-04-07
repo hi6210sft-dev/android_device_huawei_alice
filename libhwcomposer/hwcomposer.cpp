@@ -109,7 +109,7 @@ hwc_module_t HAL_MODULE_INFO_SYM = {
     .common = {
         .tag = HARDWARE_MODULE_TAG,
         .version_major = 1,
-        .version_minor = 0,
+        .version_minor = 1,
         .id = HWC_HARDWARE_MODULE_ID,
         .name = "Meticulus HWComposer",
         .author = "Meticulus Development",
@@ -403,7 +403,7 @@ static int hwc_device_open(const struct hw_module_t* module, const char* name,
 
         /* initialize the procs */
         dev->device.common.tag = HARDWARE_DEVICE_TAG;
-        dev->device.common.version = HWC_DEVICE_API_VERSION_1_0;
+        dev->device.common.version = HWC_DEVICE_API_VERSION_1_1;
         dev->device.common.module = const_cast<hw_module_t*>(module);
         dev->device.common.close = hwc_device_close;
 
