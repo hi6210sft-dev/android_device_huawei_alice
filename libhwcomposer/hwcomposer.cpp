@@ -37,6 +37,7 @@
 #include <cutils/atomic.h>
 
 #include <hardware/hwcomposer.h>
+#include <hardware/hardware.h>
 
 #include <EGL/egl.h>
 
@@ -85,7 +86,7 @@ struct hwc_context_t {
     hwc_composer_device_1_t device;
     /* our private state goes below here */
     fb_ctx_t disp[3];
-    void *hwc_handle;
+    hwc_composer_device_1_t *original_device;
 };
 
 static void write_string(const char * path, const char * value) {
@@ -137,19 +138,8 @@ static void dump_layer(hwc_layer_1_t const* l) {
 
 static int hwc_prepare(hwc_composer_device_1_t *dev, size_t numDisplays, hwc_display_contents_1_t** displays) {
     struct hwc_context_t *context = (hwc_context_t *)dev;
-    // Make sure the hwc_handle is valid.
-    if (context->hwc_handle == NULL) {
-        ALOGE("hwc_handle is NULL");
-        return -1;
-    }
-
-    // Set up everything to call the original function.
-    typedef int (*HwcPrepareFunc)(void*, size_t, void*);
-    const uintptr_t prepare_offset = 0x00015a88;
-    HwcPrepareFunc func = (HwcPrepareFunc) ((uintptr_t) context->hwc_handle + prepare_offset);
-
-    // Call the original function.
-    return func(context->hwc_handle, numDisplays, displays);
+    // Call the original prepare
+    return context->original_device->prepare(dev, numDisplays, displays);
 #if 0
     ALOGI("%s: numDisplays=%zu", __func__, numDisplays);
     for (size_t j = 0; j < numDisplays; j++) {
@@ -407,6 +397,29 @@ static int hwc_device_close(struct hw_device_t *dev)
     return 0;
 }
 
+static int custom_load(const char *id, const char *path, const struct hw_module_t **pHmi) {
+    struct hw_module_t *hmi = NULL;
+
+    void *handle = dlopen(path, RTLD_NOW);
+    if (!handle) {
+        ALOGE("%s: failed to load %s: %s", __FUNCTION__, path, dlerror());
+        return -1;
+    }
+
+    const char *sym = HAL_MODULE_INFO_SYM_AS_STR;
+    hmi = (struct hw_module_t *)dlsym(handle, sym);
+    if (!hmi) {
+        ALOGE("%s: couldn't find symbol %s: %s", __FUNCTION__, sym, dlerror());
+        dlclose(handle);
+        return -1;
+    }
+
+    hmi->dso = handle;
+    *pHmi = hmi;
+
+    return 0;
+}
+
 /*****************************************************************************/
 
 static int hwc_device_open(const struct hw_module_t* module, const char* name,
@@ -508,10 +521,18 @@ static int hwc_device_open(const struct hw_module_t* module, const char* name,
             }
         }
 
-        // Load hwcomposer.alice.so.
-        dev->hwc_handle = dlopen("hwcomposer.alice.so", RTLD_NOW);
-        if (dev->hwc_handle == NULL) {
-            ALOGE("Failed to load hwcomposer.alice.so: %s", dlerror());
+        // HACK: We relocated the original hwcomposer module to /system/lib64/hwcomposer.alice.so.
+        hw_module_t *hwc_module = NULL;
+        int err = custom_load(HWC_HARDWARE_MODULE_ID, "/system/lib64/hwcomposer.alice.so", (const hw_module_t **)&hwc_module);
+        if (err) {
+            ALOGE("Failed to get hwc module: %s", strerror(-err));
+            status = -EINVAL;
+        }
+
+        // Get the original hwc device.
+        err = hwc_open_1(hwc_module, &dev->original_device);
+        if (err) {
+            ALOGE("Failed to open hwc device: %s", strerror(-err));
             status = -EINVAL;
         }
     }
