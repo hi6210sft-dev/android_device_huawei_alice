@@ -56,6 +56,7 @@
 #define FB0_FILE "/dev/graphics/fb0"
 #define FB1_FILE "/dev/graphics/fb1"
 #define FB2_FILE "/dev/graphics/fb2"
+#define ADE_FILE "/dev/graphics/ade"
 #define TIMESTAMP_FILE "/sys/devices/virtual/graphics/fb0/vsync_timestamp"
 
 //#define DEBUG
@@ -70,6 +71,7 @@ struct fb_ctx_t {
     int id;
     int available;
     int fd;
+    int ade_fd;
     int vsyncfd;
     int vsync_on;
     int vsync_stop;
@@ -362,6 +364,11 @@ static int hwc_device_open(const struct hw_module_t* module, const char* name,
 	    ALOGW("Using fake vsync on primary...");
 	    dev->disp[HWC_DISPLAY_PRIMARY].fake_vsync = 1;
 	}
+        dev->disp[HWC_DISPLAY_PRIMARY].ade_fd = open (ADE_FILE, O_RDWR);
+        if(dev->disp[HWC_DISPLAY_PRIMARY].ade_fd < 0) {
+            ALOGE("Open ADE device failed: %s", strerror(errno));
+            status = -EINVAL;
+        }
 	/* init external physical display */
 	dev->disp[HWC_DISPLAY_EXTERNAL].available = 1;
 	dev->disp[HWC_DISPLAY_EXTERNAL].id = HWC_DISPLAY_EXTERNAL;
