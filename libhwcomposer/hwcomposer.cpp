@@ -308,6 +308,11 @@ static int query(struct hwc_composer_device_1* dev, int what, int* value) {
 		retval = REFRESH_PERIOD;	
 		value = &retval;
 		break;
+	    case HWC_DISPLAY_TYPES_SUPPORTED:
+		/* We support only primary and virtual displays */
+		retval = HWC_DISPLAY_PRIMARY_BIT | HWC_DISPLAY_VIRTUAL_BIT;
+                value = &retval;
+		break;
 	    default:
 		ALOGE("Unknown query %d",what);
 		break;
