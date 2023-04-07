@@ -59,14 +59,6 @@
 #define ADE_FILE "/dev/graphics/ade"
 #define TIMESTAMP_FILE "/sys/devices/virtual/graphics/fb0/vsync_timestamp"
 
-//#define DEBUG
-
-#ifdef DEBUG
-#define DEBUG_LOG(x...) ALOGD(x)
-#else
-#define DEBUG_LOG(x...) do {} while(0)
-#endif
-
 struct fb_ctx_t {
     int id;
     int available;
@@ -128,7 +120,7 @@ hwc_module_t HAL_MODULE_INFO_SYM = {
 /*****************************************************************************/
 
 static void dump_layer(hwc_layer_1_t const* l) {
-    DEBUG_LOG("\ttype=%d, flags=%08x, handle=%p, tr=%02x, blend=%04x, {%d,%d,%d,%d}, {%d,%d,%d,%d}",
+    ALOGD("\ttype=%d, flags=%08x, handle=%p, tr=%02x, blend=%04x, {%d,%d,%d,%d}, {%d,%d,%d,%d}",
             l->compositionType, l->flags, l->handle, l->transform, l->blending,
             l->sourceCrop.left,
             l->sourceCrop.top,
@@ -172,7 +164,7 @@ static void * vsync_thread(void * arg) {
    setpriority(PRIO_PROCESS, 0, HAL_PRIORITY_URGENT_DISPLAY +
                 android::PRIORITY_MORE_FAVORABLE);
    fb_ctx_t *fb = (fb_ctx_t *) arg;
-   DEBUG_LOG("vsync thread enter id = %d fake = %d", fb->id, fb->fake_vsync);
+   ALOGD("vsync thread enter id = %d fake = %d", fb->id, fb->fake_vsync);
    fb->vthread_running = 1;
    int retval = -1;
    int64_t timestamp = 0;
@@ -180,10 +172,10 @@ static void * vsync_thread(void * arg) {
    if(fb->fake_vsync) {
 	while(true) {
 	    if(!fb->vsync_on) {
-		DEBUG_LOG("vsync thread sleeping id = %d fake = 1", fb->id);
+		ALOGD("vsync thread sleeping id = %d fake = 1", fb->id);
 		while(!fb->vsync_on && !fb->vsync_stop)
 		    pthread_cond_wait(&fb->cond,&fb->mutex);
-		DEBUG_LOG("vsync thread woke up id = %d fake = 1", fb->id);
+		ALOGD("vsync thread woke up id = %d fake = 1", fb->id);
 		if(fb->vsync_stop)
 		    break;
 		if(!fb->vsync_on)
@@ -196,10 +188,10 @@ static void * vsync_thread(void * arg) {
    } else {
 	while(true) {
 	    if(!fb->vsync_on) {
-		DEBUG_LOG("vsync thread sleeping id = %d fake = 0", fb->id);
+		ALOGD("vsync thread sleeping id = %d fake = 0", fb->id);
 		while(!fb->vsync_on && !fb->vsync_stop)
 		    pthread_cond_wait(&fb->cond,&fb->mutex);
-		DEBUG_LOG("vsync thread woke up id = %d fake = 0", fb->id);
+		ALOGD("vsync thread woke up id = %d fake = 0", fb->id);
 		if(fb->vsync_stop)
 		    break;
 		if(!fb->vsync_on)
@@ -216,7 +208,7 @@ static void * vsync_thread(void * arg) {
    retval = 0;
 error:
    fb->vthread_running = 0;
-   DEBUG_LOG("vsync thread exit");
+   ALOGD("vsync thread exit");
    return NULL; 
 
 }
@@ -281,7 +273,7 @@ static int hwc_blank(struct hwc_composer_device_1* dev, int disp, int blank) {
     context->disp[disp].vsync_on = blank ? 0 : 1;
     signal_vsync_thread(&context->disp[disp]);
 
-    DEBUG_LOG("blank called %d",blank);
+    ALOGD("blank called %d",blank);
     return ret;
 }
 
@@ -292,11 +284,11 @@ static void register_procs(struct hwc_composer_device_1* dev,
     context->disp[HWC_DISPLAY_PRIMARY].hwc_procs = procs;
     context->disp[HWC_DISPLAY_EXTERNAL].hwc_procs = procs;
     context->disp[HWC_DISPLAY_VIRTUAL].hwc_procs = procs;
-    DEBUG_LOG("procs registered");
+    ALOGD("procs registered");
 }
 
 static int query(struct hwc_composer_device_1* dev, int what, int* value) {
-    DEBUG_LOG("query %d %d",what,*value);
+    ALOGD("query %d %d",what,*value);
 
 	int retval = 0;
 	switch (what) {
