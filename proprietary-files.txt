@@ -410,6 +410,7 @@ lib64/egl/libGLES_android.so
 lib64/egl/libGLES_mali.so
 lib64/hw/displaycaps.default.so
 lib64/hw/gralloc.hi6210sft.so
+lib64/hw/hwcomposer.hi6210sft.so:lib64/hw/hwcomposer.alice.so
 lib64/hw/memtrack.hi6210sft.so
 lib64/libcusteyeprotection_jni.so
 lib64/libcustpwmanager_jni.so
