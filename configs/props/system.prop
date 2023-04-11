@@ -8,6 +8,7 @@ ro.config.small_battery=true
 ro.camera.beauty.algo.doc=1
 ro.hwcamera.previeweffects=true
 ro.camera.config.burstcount=10
+camera2.portability.force_api=1
 
 # Display
 ro.sf.lcd_density=320
