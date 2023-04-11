@@ -84,6 +84,9 @@ function blob_fixup() {
         lib*/libdrmbitmap.huawei.so)
             sed -i 's/libskia.so/libhwui.so/g' "${2}"
             ;;
+        lib*/sensors.alice.so)
+            sed -i 's|/system/etc/permissions/|/vendor/etc/permissions/|g' "${2}"
+            ;;
         lib/libcamera_post_mediaserver.so)
             sed -i 's/libskia.so/libhwui.so/g' "${2}"
             ;;
