@@ -71,6 +71,7 @@ char *get_mac_address(int type) {
                       tmp_buffer[3], tmp_buffer[4], tmp_buffer[5],
                       tmp_buffer[6], tmp_buffer[7], tmp_buffer[8],
                       tmp_buffer[9], tmp_buffer[10], tmp_buffer[11]);
+            free(tmp_buffer);
             return address;
         }
     }
