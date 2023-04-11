@@ -1,6 +1,7 @@
 cc_library_static {
     name: "libinit_huawei_hi6210sft",
     recovery_available: true,
+    shared_libs: ["libbase"],
     srcs: ["init_huawei_hi6210sft.cpp"],
     include_dirs: [
         "system/core/base/include",

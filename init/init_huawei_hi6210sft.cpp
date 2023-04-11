@@ -47,6 +47,8 @@
 #include "vendor_init.h"
 #include "property_service.h"
 
+#define PRODUCT_NAME "/sys/firmware/devicetree/base/boardinfo/normal_product_name"
+
 std::string kPartitionMap[] = {
         "", "vrl", "vrl_bkup", "mcuimage", "reserved0", "fastboot",
         "modemnvbkup", "nvme", "oeminfo", "splash", "modemnvm1",
@@ -56,6 +58,40 @@ std::string kPartitionMap[] = {
         "dtimage", "modemimage", "dsp", "dfx", "3rdmodem", "cache", "hisitest0", "hisitest1",
         "hisitest2", "system", "cust", "userdata"
 };
+
+using android::base::GetProperty;
+using std::string;
+
+std::vector<string> ro_props_default_source_order = {
+    "",
+    "odm.",
+    "product.",
+    "system.",
+    "system_ext.",
+    "vendor.",
+};
+
+void property_override(string prop, string value) {
+    auto pi = (prop_info*) __system_property_find(prop.c_str());
+
+    if (pi != nullptr)
+        __system_property_update(pi, value.c_str(), value.size());
+    else
+        __system_property_add(prop.c_str(), prop.size(), value.c_str(), value.size());
+}
+
+void set_ro_build_prop(const string &prop, const string &value, bool product = true) {
+    string prop_name;
+
+    for (const auto &source : ro_props_default_source_order) {
+        if (product)
+            prop_name = "ro.product." + source + prop;
+        else
+            prop_name = "ro." + source + "build." + prop;
+
+        property_override(prop_name.c_str(), value.c_str());
+    }
+}
 
 void fix_symlinks() {
     const std::string kPathPrefix = "/dev/block/mmcblk0p";
@@ -81,5 +117,12 @@ void fix_symlinks() {
 }
 
 void vendor_load_properties() {
+    std::string model;
+
+    if (android::base::ReadFileToString(PRODUCT_NAME, &model)) {
+        LOG(INFO) << "Found product name: " << model;
+        set_ro_build_prop("model", model);
+    }
+
     fix_symlinks();
 }
