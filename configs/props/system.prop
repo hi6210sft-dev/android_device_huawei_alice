@@ -151,5 +151,8 @@ ro.config.hw_glovemode_enabled=1
 ro.config.hw_touchplus_enabled=false
 ro.config.hw_easywakeup=true
 
+# Tethering
+net.tethering.noprovisioning=true
+
 # Wi-fi
 ro.wifi.wifiaddr_path=/data/vendor/wifi/macwlan
