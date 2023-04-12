@@ -30,11 +30,8 @@
 
 #include <sys/ioctl.h>
 
-char *get_mac_address(int type) {
+int get_mac_address(int type, char *address) {
     int fd = -1;
-    static char address[18] = {0};
-    char *tmp_buffer = nullptr;
-
     struct nve_info_user info = {
         .nv_operation = 0x1,
         .nv_number = static_cast<uint32_t>(type),
@@ -61,29 +58,29 @@ char *get_mac_address(int type) {
         fd = open(NVE_PARTITION_PATH, O_RDWR);
         if (fd < 0) {
             LOG(ERROR) << "Failed to open " << NVE_PARTITION_PATH << ": " << strerror(errno);
-            return address;
+            return -1;
         }
 
-        tmp_buffer = nve_read(fd, (type == 0xC1 ? "MACWLAN" : (type == 0xC2 ? "MACBT" : "")));
+        char *tmp_buffer = nve_read(fd, (type == 0xC1 ? "MACWLAN" : (type == 0xC2 ? "MACBT" : "")));
         if (tmp_buffer != nullptr) {
-            std::snprintf(address, sizeof(address), "%c%c:%c%c:%c%c:%c%c:%c%c:%c%c",
+            std::snprintf(address, 18, "%c%c:%c%c:%c%c:%c%c:%c%c:%c%c",
                       tmp_buffer[0], tmp_buffer[1], tmp_buffer[2],
                       tmp_buffer[3], tmp_buffer[4], tmp_buffer[5],
                       tmp_buffer[6], tmp_buffer[7], tmp_buffer[8],
                       tmp_buffer[9], tmp_buffer[10], tmp_buffer[11]);
             free(tmp_buffer);
-            return address;
+            return 0;
         }
     }
 
     close(fd);
-    std::snprintf(address, sizeof(address), "%c%c:%c%c:%c%c:%c%c:%c%c:%c%c",
+    std::snprintf(address, 18, "%c%c:%c%c:%c%c:%c%c:%c%c:%c%c",
                   info.nv_data[0], info.nv_data[1], info.nv_data[2],
                   info.nv_data[3], info.nv_data[4], info.nv_data[5],
                   info.nv_data[6], info.nv_data[7], info.nv_data[8],
                   info.nv_data[9], info.nv_data[10], info.nv_data[11]);
 
-    return address;
+    return 0;
 }
 
 int write_mac_address(std::string mac_path, char *mac_address) {
@@ -109,14 +106,14 @@ int main(int argc, char *argv[]) {
     LOG(INFO) << "Using " << mac_wifi_path << " for wifi MAC";
     LOG(INFO) << "Using " << mac_bluetooth_path << " for bluetooth MAC";
 
-    char *mac_wifi = get_mac_address(NVE_MACWLAN);
-    if (mac_wifi[0] == 0) {
+    char mac_wifi[18] = {0};
+    if (get_mac_address(NVE_MACWLAN, mac_wifi) != 0) {
         LOG(ERROR) << "Failed to get WiFi MAC address";
         return -1;
     }
 
-    char *mac_bluetooth = get_mac_address(NVE_MACBT);
-    if (mac_bluetooth[0] == 0) {
+    char mac_bluetooth[18] = {0};
+    if (get_mac_address(NVE_MACBT, mac_bluetooth) != 0) {
         LOG(ERROR) << "Failed to get Bluetooth MAC address";
         return -1;
     }
