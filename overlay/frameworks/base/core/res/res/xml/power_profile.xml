@@ -41,7 +41,8 @@
     <value>10.0</value>
     <value>10.0</value>
   </array>
-  <array name="cpu.speeds">
+  <item name="cpu.clusters.cores">8</item>
+  <array name="cpu.core_speeds.cluster0">
     <value>480000</value> <!-- 480 MHz CPU speed -->
     <value>807000</value> <!-- 807 MHz CPU speed -->
     <value>1018000</value> <!-- 1.0 GHz CPU speed -->
@@ -54,11 +55,11 @@
     <value>2515200</value><!-- 2.5 GHz CPU speed -->
   </array>
   <!-- Power consumption in suspend -->
-  <item name="cpu.idle">4</item> <!-- k3v5 -->
+  <item name="cpu.suspend">4</item> <!-- k3v5 -->
   <!-- Power consumption due to wake lock held -->
   <item name="cpu.awake">43</item> <!-- k3v5 -->
   <!-- Power consumption at different speeds -->
-  <array name="cpu.active">
+  <array name="cpu.core_power.cluster0">
     <value>107</value>
     <value>181</value>
     <value>244</value>
