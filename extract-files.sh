@@ -90,6 +90,11 @@ function blob_fixup() {
         lib/libcamera_post_mediaserver.so)
             sed -i 's/libskia.so/libhwui.so/g' "${2}"
             ;;
+        lib/lib_k3_omx_mpeg4.so)
+            # OmxMpeg4DecComponent::getParameter()
+            xxd -p "${2}" | sed "s/144821e05c69182c/144821e05c69642c/g" | xxd -r -p > "${2}".patched
+            mv "${2}".patched "${2}"
+            ;;
         vendor/lib/mediadrm/libwvdrmengine.so)
             sed -i "s/libprotobuf-cpp-lite.so/libprotobuf-cpp-N.so\x00\x00\x00/" "${2}"
             ;;
