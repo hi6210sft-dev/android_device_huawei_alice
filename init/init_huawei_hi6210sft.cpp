@@ -122,6 +122,11 @@ void vendor_load_properties() {
     if (android::base::ReadFileToString(PRODUCT_NAME, &model)) {
         LOG(INFO) << "Found product name: " << model;
         set_ro_build_prop("model", model);
+
+        if (model.find("ALE") != std::string::npos) {
+            LOG(INFO) << "Enabling NFC for " << model;
+            property_override("ro.boot.product.hardware.sku", "nfc");
+        }
     }
 
     fix_symlinks();
