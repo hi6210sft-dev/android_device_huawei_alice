@@ -776,6 +776,14 @@ lib64/libprojectmenu.so
 -lib64/libril.so|2d39fd04ecce78247d9cd47fe5ed3f6d42400c95
 isp.bin
 phone.prop:vendor/phone.prop
+hw_oem/CAM-U22/prop/local.prop
+hw_oem/CAM-L23/prop/local.prop
+hw_oem/ALE-L21/prop/local.prop
+hw_oem/CAM-L53/prop/local.prop
+hw_oem/CAM-L03/prop/local.prop
+hw_oem/CAM-L21/prop/local.prop
+hw_oem/CAM-L22/prop/local.prop
+hw_oem/ALE-L21single/prop/local.prop
 
 # Sensors
 lib64/hw/sensors.default.so:lib64/sensors.alice.so

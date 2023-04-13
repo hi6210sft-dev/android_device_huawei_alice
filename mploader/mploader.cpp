@@ -10,6 +10,7 @@
 
 #define CMDLINE "/proc/cmdline"
 #define PHONE_PROP "/vendor/phone.prop"
+#define HW_OEM_BASE "/system/hw_oem/"
 
 #include <string>
 #include <vector>
@@ -25,7 +26,7 @@ std::string ReadProductId() {
             if (parts.size() == 2 && parts.at(0) == "productid") {
                 prid = parts.at(1);
                 std::transform(prid.begin(), prid.end(), prid.begin(),
-                   [](unsigned char c){ return toupper(c); });
+                               [](unsigned char c){ return toupper(c); });
             }
         }
     }
@@ -56,9 +57,35 @@ int LoadPhoneProperties(std::string prid) {
     return ret;
 }
 
+int LoadHWOemProperties(std::string model) {
+    std::string line;
+    std::string hw_oem_prop = HW_OEM_BASE + model + "/prop/local.prop";
+
+    std::ifstream file(hw_oem_prop);
+    if (file.is_open()) {
+        while (std::getline(file, line)) {
+            if (line.find("#") == 0) continue; // Ignore possible comments.
+            std::vector<std::string> parts = android::base::Split(line, "=");
+            if (parts.size() == 2) {
+                LOG(INFO) << "Setting property: " << parts.at(0);
+                android::base::SetProperty(parts.at(0), parts.at(1));
+            }
+        }
+    }
+
+    return 0;
+}
+
 int main() {
     int ret = -1;
+    std::string productModel = android::base::GetProperty("ro.product.model", "");
     std::string productId = ReadProductId();
+
+    if (productModel != "") {
+        if ((ret = LoadHWOemProperties(productModel)) == 0) {
+            LOG(INFO) << "Successfully loaded hw_oem properties for " << productModel;
+        }
+    }
 
     if (productId != DEFAULT_ID) {
         if ((ret = LoadPhoneProperties(productId)) == 0) {
