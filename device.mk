@@ -247,6 +247,7 @@ PRODUCT_PACKAGES += \
     libshim_audio \
     libshim_gui \
     libshim_camera \
+    libshim_omx \
     libshim_sensorlistener
 
 # Touch
