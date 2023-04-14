@@ -18,3 +18,9 @@ extern "C" int force_flush_set(struct mixer *mixer, char* state, char *p) {
     // the function, too (respecting the params).
     return 0;
 }
+
+extern "C" int32_t _ZN7android11AudioPlayer5startEb(void *thisptr, bool sourceAlreadyStarted);
+
+extern "C" int32_t _ZN7android11AudioPlayer9start_lppEv(void *thisptr) {
+    return _ZN7android11AudioPlayer5startEb(thisptr, false);
+}
