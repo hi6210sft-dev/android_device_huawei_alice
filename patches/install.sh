@@ -2,7 +2,7 @@
 
 C=$(pwd)
 S="huawei/alice"
-D="system/core system/bt bootable/recovery hardware/interfaces"
+D="system/core system/bt bootable/recovery hardware/interfaces frameworks/native"
 
 apply_patches() { cd ${C}/${1}; git apply --ignore-whitespace ${C}/device/${S}/patches/$1/*.patch; cd ${C}; }
 

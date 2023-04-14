@@ -1,7 +1,7 @@
 #!/bin/bash
 
 C=$(pwd)
-D="system/core system/bt bootable/recovery hardware/interfaces"
+D="system/core system/bt bootable/recovery hardware/interfaces frameworks/native"
 
 clear_patches() { cd ${C}/${1}; git checkout -- . && git clean -df; cd ${C}; }
 

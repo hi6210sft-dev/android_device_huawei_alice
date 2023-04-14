@@ -1,0 +1,44 @@
+From a20a1b9f51af08108ffa33fc44b23d2adc021039 Mon Sep 17 00:00:00 2001
+From: Eduardo Alonso <edu@error404software.com>
+Date: Fri, 14 Apr 2023 11:58:26 +0200
+Subject: [PATCH] surfaceflinger: wake up the LCD manually
+
+Change-Id: I44673e9817311a4363b0c963ee7b44fc03a555d6
+---
+ services/surfaceflinger/SurfaceFlinger.cpp | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/services/surfaceflinger/SurfaceFlinger.cpp b/services/surfaceflinger/SurfaceFlinger.cpp
+index db26808..062c60b 100644
+--- a/services/surfaceflinger/SurfaceFlinger.cpp
++++ b/services/surfaceflinger/SurfaceFlinger.cpp
+@@ -125,6 +125,9 @@
+ #include "gralloc_priv.h"
+ #endif
+ 
++#define FBIOBLANK               0x4611
++#define FB_BLANK_UNBLANK        0
++
+ namespace android {
+ 
+ using namespace android::hardware::configstore;
+@@ -4521,6 +4524,16 @@ void SurfaceFlinger::setPowerModeInternal(const sp<DisplayDevice>& display, int
+ 
+     ALOGD("Setting power mode %d on display %s", mode, to_string(*displayId).c_str());
+ 
++    // Wake up the LCD.
++    if (mode == 2) {
++        int fd, ret;
++        fd = open("/dev/graphics/fb0",O_WRONLY);
++        ret = ioctl(fd, FBIOBLANK, FB_BLANK_UNBLANK);
++        if (ret < 0) {
++            ALOGE("Error waking up LCD: %d (%s)\n", ret, strerror(errno));
++        }
++    }
++
+     int currentMode = display->getPowerMode();
+     if (mode == currentMode) {
+         return;
+-- 
+2.30.2
+
