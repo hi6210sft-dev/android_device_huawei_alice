@@ -3,6 +3,12 @@ on early-init
     setprop wifi.interface wlan0
 
 on post-fs-data
+    mkdir /data/gps
+    mkdir /data/gps/log
+    chown root system /data/gps
+    chmod 775 /data/gps
+    chmod 770 /data/gps/log
+
     restorecon_recursive /data/memdump
     restorecon_recursive /data/hwlogdir
     restorecon_recursive /data/gnss
@@ -164,4 +170,8 @@ service macaddr /system/bin/mac_addr_normalization
     class late_start
     user root
     group root bluetooth bluetooth wifi
+    oneshot
+
+service gpsdaemon /system/bin/gpsdaemon
+    class main
     oneshot
