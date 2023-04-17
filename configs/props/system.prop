@@ -9,6 +9,8 @@ ro.camera.beauty.algo.doc=1
 ro.hwcamera.previeweffects=true
 ro.camera.config.burstcount=10
 camera2.portability.force_api=1
+camera.debug.zsl.enable=0
+camera.debug.zsl.restart=0
 
 # Display
 ro.sf.lcd_density=320
