@@ -154,6 +154,9 @@ TARGET_PROCESS_SDK_VERSION_OVERRIDE += \
     /system/vendor/bin/hw/rild=27 \
     /system/bin/mediaserver=23
 
+# SELinux
+SELINUX_IGNORE_NEVERALLOWS := true
+
 # Vintf
 DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/manifest.xml
 ODM_MANIFEST_SKUS += nfc
