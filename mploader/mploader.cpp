@@ -16,6 +16,12 @@
 #include <vector>
 #include <fstream>
 
+// Avoid setting the following propertie(s) since
+// they break stuff.
+std::string kBlacklistedProperties[] = {
+    "ro.frp.pst",
+};
+
 std::string ReadProductId() {
     std::string prid = DEFAULT_ID;
     std::string cmdline;
@@ -48,7 +54,13 @@ int LoadPhoneProperties(std::string prid) {
                 std::vector<std::string> parts = android::base::Split(line, "=");
                 if (parts.size() == 2) {
                     LOG(INFO) << "Setting property: " << parts.at(0);
-                    android::base::SetProperty(parts.at(0), parts.at(1));
+                    if (std::find(std::begin(kBlacklistedProperties),
+                                  std::end(kBlacklistedProperties),
+                                  parts.at(0)) == std::end(kBlacklistedProperties)) {
+                        android::base::SetProperty(parts.at(0), parts.at(1));
+                    } else {
+                        LOG(INFO) << "Skipping blacklisted property: " << parts.at(0);
+                    }
                 }
             }
         }
